@@ -101,7 +101,7 @@ variable "service_subtype" {
 
 variable "tuxedo_service_logs" {
   type        = map(list(any))
-  description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing user log files for each server group. Each object is expected to have at a minimum a 'name' key. Two CloudWatch log groups will be created for each object for standard output and standard error streams respectively. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-oject to override the default values and will apply to both standard error and standard output log groups for that log."
+  description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing user log files for each server group. Each object is expected to have at a minimum a 'name' key. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-oject to override the default values and will apply to both standard error and standard output log groups for that log."
   default = {
     ceu = []
     chd = []
@@ -120,9 +120,9 @@ variable "tuxedo_user_logs" {
   type        = map(list(any))
   description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing individual log files for each server group. Each object is expected to have at a minimum a 'name' key. A single CloudWatch log group will be created for each object. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-oject to override the default values."
   default = {
-    ewf = [
-      { name: "ULOG" }
-    ]
+    ceu = []
+    chd = []
+    chic = []
     xml = [
       { name: "ULOG" }
     ]
