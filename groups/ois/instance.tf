@@ -56,19 +56,7 @@ resource "aws_security_group" "common" {
     for_each = var.tuxedo_services
     iterator = service
     content {
-      description = "Allow health check requests from network load balancer to Tuxedo ${upper(service.key)} services"
-      from_port   = service.value
-      to_port     = service.value
-      protocol    = "TCP"
-      cidr_blocks = formatlist("%s/32", [for eni in data.aws_network_interface.nlb : eni.private_ip])
-    }
-  }
-
-  dynamic "ingress" {
-    for_each = var.tuxedo_services
-    iterator = service
-    content {
-      description = "Allow connectivity for Tuxedo ${upper(service.key)} services"
+      description = "Allow CHIPS connectivity for Tuxedo ${upper(service.key)} services"
       from_port   = service.value
       to_port     = service.value
       protocol    = "TCP"
