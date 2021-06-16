@@ -68,7 +68,7 @@ resource "aws_security_group" "common" {
     for_each = var.tuxedo_services
     iterator = service
     content {
-      description = "Allow connectivity connectivity for Tuxedo ${upper(service.key)} services"
+      description = "Allow connectivity for Tuxedo ${upper(service.key)} services"
       from_port   = service.value
       to_port     = service.value
       protocol    = "TCP"
