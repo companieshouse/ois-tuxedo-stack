@@ -12,7 +12,7 @@
     tuxedo_logical_machine_id: "{{ tuxedo_user | upper }}_{{ tuxedo_logical_machine_id_suffix }}"
     tuxedo_machine_name: "{{ ansible_facts.hostname }}"
     tuxedo_user_id: "{{ tuxedo_service_config[tuxedo_user].uid }}"
-    tuxedo_queue_path: /home/{{ tuxedo_user }}/queues/RAWDISK_UDL
+    tuxedo_queue_path: "/home/{{ tuxedo_user }}/queues/RAWDISK_UDL"
     tuxedo_log_size: "{{ tuxedo_service_config[tuxedo_user].tuxedo_log_size }}"
   no_log: True
 
