@@ -1,0 +1,66 @@
+---
+
+cloudwatch_agent:
+  path: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
+  config_dir: /opt/aws/amazon-cloudwatch-agent/etc
+  log_file: /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
+  metrics_collection_interval: 60
+  user: cwagent
+
+tuxedo_logs_path: /var/log/tuxedo
+tuxedo_log_rotation_config_path: /etc/logrotate.tuxedo.conf
+
+tuxedo_log_files:
+  xml:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-domaudit
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-orders
+    - file_pattern: sqsp.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-sqsp
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-xml-ulog
+
+tuxedo_service_group: tuxedo
+tuxedo_service_users:
+  - ceu
+  - chd
+  - chic
+  - xml
+
+tuxedo_service_user_id_minimum: 1010
+tuxedo_service_user_id_increment: 10
+tuxedo_service_ipc_key_start: 48000
+tuxedo_service_ipc_key_increment: 100
+tuxedo_service_domain_port_start: 38000
+tuxedo_service_domain_port_increment: 100
+
+tuxedo_service_config:
+  ceu:
+    gid: "{{ tuxedo_service_user_id_minimum + (0 * tuxedo_service_user_id_increment) | int }}"
+    uid: "{{ tuxedo_service_user_id_minimum + (0 * tuxedo_service_user_id_increment) | int }}"
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (0 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (0 * tuxedo_service_domain_port_increment) | int }}"
+  chd:
+    gid: "{{ tuxedo_service_user_id_minimum + (1 * tuxedo_service_user_id_increment) | int }}"
+    uid:  "{{ tuxedo_service_user_id_minimum + (1 * tuxedo_service_user_id_increment) | int }}"
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (1 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (1 * tuxedo_service_domain_port_increment) | int }}"
+  chic:
+    gid: "{{ tuxedo_service_user_id_minimum + (2 * tuxedo_service_user_id_increment) | int }}"
+    uid: "{{ tuxedo_service_user_id_minimum + (2 * tuxedo_service_user_id_increment) | int }}"
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (2 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (2 * tuxedo_service_domain_port_increment) | int }}"
+  xml:
+    gid: "{{ tuxedo_service_user_id_minimum + (3 * tuxedo_service_user_id_increment) | int }}"
+    uid: "{{ tuxedo_service_user_id_minimum + (3 * tuxedo_service_user_id_increment) | int }}"
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (3 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (3 * tuxedo_service_domain_port_increment) | int }}"
+    tuxedo_log_size: 10
+
+deployment_dir: deployment
+rollback_dir: rollback
