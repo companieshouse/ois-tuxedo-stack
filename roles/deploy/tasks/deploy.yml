@@ -5,14 +5,17 @@
     private_host_address: "{{ inventory_hostname }}"
     private_host_local_domain_port: "{{ tuxedo_service_config[tuxedo_user].local_domain_port }}"
     service_name: "{{ tuxedo_user }}"
+    tuxedo_env_file_path: "/home/{{ tuxedo_user }}/deployment/config/envfile"
     tuxedo_domain_id: "{{ tuxedo_user | upper }}_{{ tuxedo_domain_id_suffix }}"
-    tuxedo_group_id: "{{ tuxedo_service_config[tuxedo_user].gid }}"
+    tuxedo_group_id: "{{ getent_passwd[tuxedo_user][getent_gid_index] }}"
     tuxedo_ipc_key: "{{ tuxedo_service_config[tuxedo_user].ipc_key }}"
+    tuxedo_klist_file_path: "/home/{{ tuxedo_user }}/deployment/klist"
+    tuxedo_finance_file_path: "/home/{{ tuxedo_user }}/deployment/finance"
     tuxedo_local_domain_id: "{{ tuxedo_user | upper }}_{{ tuxedo_local_domain_suffix }}"
     tuxedo_logical_machine_id: "{{ tuxedo_user | upper }}_{{ tuxedo_logical_machine_id_suffix }}"
     tuxedo_machine_name: "{{ ansible_facts.hostname }}"
-    tuxedo_user_id: "{{ tuxedo_service_config[tuxedo_user].uid }}"
-    tuxedo_queue_path: "/home/{{ tuxedo_user }}/queues/RAWDISK_UDL"
+    tuxedo_user_id: "{{ getent_passwd[tuxedo_user][getent_uid_index] }}"
+    tuxedo_queue_path: "/home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }}"
     tuxedo_log_size: "{{ tuxedo_service_config[tuxedo_user].tuxedo_log_size }}"
   no_log: True
 
@@ -29,6 +32,14 @@
 - name: "{{ tuxedo_user }} : Create service logs directory"
   file:
     path: "{{ tuxedo_logs_path }}/{{ tuxedo_user }}"
+    owner: "{{ tuxedo_user }}"
+    group: "{{ tuxedo_user }}"
+    mode: 0755
+    state: directory
+
+- name: "{{ tuxedo_user }} : Create config directory"
+  file:
+    path: "{{ new_deployment_files.path }}/config"
     owner: "{{ tuxedo_user }}"
     group: "{{ tuxedo_user }}"
     mode: 0755
@@ -59,7 +70,7 @@
 
 - name: "{{ tuxedo_user }} : Stop Tuxedo services"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && tmshutdown -y"
+  shell: "source {{ tuxedo_env_file_path }} && tmshutdown -y"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -67,7 +78,7 @@
 
 - name: "{{ tuxedo_user }} : Clear IPC facilities"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && zapipc"
+  shell: "source {{ tuxedo_env_file_path }} && zapipc"
   args:
     executable: /bin/bash
   when: current_deployment_files.stat.exists
@@ -88,7 +99,7 @@
 
 - name: "{{ tuxedo_user }} : Lint Tuxedo ubbconfig file after variable population"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && tmloadcf -n ubbconfig"
+  shell: "source {{ tuxedo_env_file_path }} && tmloadcf -n ubbconfig"
   args:
     chdir: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config"
     executable: /bin/bash
@@ -103,14 +114,14 @@
 
 - name: "{{ tuxedo_user }} : Generate Tuxedo binary tuxconfig file"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && tmloadcf -y ubbconfig"
+  shell: "source {{ tuxedo_env_file_path }} && tmloadcf -y ubbconfig"
   args:
     chdir: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config"
     executable: /bin/bash
 
 - name: "{{ tuxedo_user }} : Lint Tuxedo dmconfig file after variable population"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && dmloadcf -n dmconfig"
+  shell: "source {{ tuxedo_env_file_path }} && dmloadcf -n dmconfig"
   args:
     chdir: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config"
     executable: /bin/bash
@@ -125,7 +136,7 @@
 
 - name: "{{ tuxedo_user }} : Generate Tuxedo binary bdmconfig file"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && dmloadcf -y dmconfig"
+  shell: "source {{ tuxedo_env_file_path }} && dmloadcf -y dmconfig"
   args:
     chdir: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config"
     executable: /bin/bash
@@ -136,9 +147,44 @@
     dest: "{{ cloudwatch_agent.config_dir }}/cloudwatch-config-{{ tuxedo_user }}.json"
     trim_blocks: False
 
-# TODO start services; disabled for initial deployment testing phase
-# - name: "{{ tuxedo_user }} : Start Tuxedo services"
-#   become_user: "{{ tuxedo_user }}"
-#   shell: "source $HOME/deployment/config/envfile && tmboot -y"
-#   args:
-#     executable: /bin/bash
+- name: "{{ tuxedo_user }} : Check state of {{ tuxedo_user }} queue"
+  stat:
+    path: "/home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }}"
+  register: queue
+
+- name: "{{ tuxedo_user }} : Create queues directory"
+  file:
+    path: "/home/{{ tuxedo_user }}/queues"
+    state: directory
+    mode: 0755
+    owner: "{{ tuxedo_user }}"
+    group: "{{ tuxedo_user }}"
+
+- name: "{{ tuxedo_user }} : Deploy queue creation script"
+  template:
+    src: "create_{{ tuxedo_user }}_queue.j2"
+    dest: "/home/{{ tuxedo_user }}/create_{{ tuxedo_user }}_queue"
+    owner: "{{ tuxedo_user }}"
+    group: "{{ tuxedo_user }}"
+    mode: 0777
+  when: not queue.stat.exists
+
+- name: "{{ tuxedo_user }} : Create universal device entry, queue space, and queues"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source {{ tuxedo_env_file_path }} && ./create_{{ tuxedo_user }}_queue"
+  args:
+    chdir: "/home/{{ tuxedo_user }}"
+    executable: /bin/bash
+  when: not queue.stat.exists
+
+- name: "{{ tuxedo_user }} : Remove queue creation script"
+  file:
+    path: "/home/{{ tuxedo_user }}/create_{{ tuxedo_user }}_queue"
+    state: absent
+  when: not queue.stat.exists
+
+- name: "{{ tuxedo_user }} : Start Tuxedo services"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source $HOME/deployment/config/envfile && tmboot -y"
+  args:
+    executable: /bin/bash
