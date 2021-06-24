@@ -25,9 +25,9 @@
     state: directory
   register: new_deployment_files
 
-- name: "{{ tuxedo_user }} : Copy application artefact files to temporary {{ tuxedo_user }} deployment directory"
+- name: "{{ tuxedo_user }} : Copy application artifact files to temporary {{ tuxedo_user }} deployment directory"
   become_user: "{{ tuxedo_user }}"
-  command: "cp -r {{ application_artefact_files.path }}/. {{ new_deployment_files.path }}"
+  command: "cp -r {{ application_artifact_files.path }}/. {{ new_deployment_files.path }}"
 
 - name: "{{ tuxedo_user }} : Create service logs directory"
   file:
