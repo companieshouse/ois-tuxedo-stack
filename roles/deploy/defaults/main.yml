@@ -29,9 +29,6 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-ois-ulog
 
 tuxedo_service_group: tuxedo
-tuxedo_service_users:
-  - ois
-
 tuxedo_service_ipc_key_start: 48000
 tuxedo_service_ipc_key_increment: 100
 tuxedo_queue_space_ipc_key_start: 58000
@@ -41,10 +38,25 @@ tuxedo_service_domain_port_start: 38000
 tuxedo_service_domain_port_increment: 100
 
 tuxedo_service_config:
-  ois:
+  ceu:
     ipc_key: "{{ tuxedo_service_ipc_key_start + (0 * tuxedo_service_ipc_key_increment) | int }}"
     local_domain_port: "{{ tuxedo_service_domain_port_start + (0 * tuxedo_service_domain_port_increment) | int }}"
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (0 * tuxedo_queue_space_ipc_key_increment) | int }}"
+    tuxedo_log_size: 10
+  ois:
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (1 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (1 * tuxedo_service_domain_port_increment) | int }}"
+    queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (1 * tuxedo_queue_space_ipc_key_increment) | int }}"
+    tuxedo_log_size: 10
+  publ:
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (2 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (2 * tuxedo_service_domain_port_increment) | int }}"
+    queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (2 * tuxedo_queue_space_ipc_key_increment) | int }}"
+    tuxedo_log_size: 10
+  xml:
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (3 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (3 * tuxedo_service_domain_port_increment) | int }}"
+    queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (3 * tuxedo_queue_space_ipc_key_increment) | int }}"
     tuxedo_log_size: 10
 
 deployment_dir: deployment
