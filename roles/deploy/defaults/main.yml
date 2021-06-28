@@ -45,7 +45,7 @@ tuxedo_service_config:
     ipc_key: "{{ tuxedo_service_ipc_key_start + (0 * tuxedo_service_ipc_key_increment) | int }}"
     local_domain_port: "{{ tuxedo_service_domain_port_start + (0 * tuxedo_service_domain_port_increment) | int }}"
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (0 * tuxedo_queue_space_ipc_key_increment) | int }}"
-    tuxedo_log_size: 10000
+    tuxedo_log_size: 10
 
 deployment_dir: deployment
 rollback_dir: rollback
