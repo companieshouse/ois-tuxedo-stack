@@ -18,7 +18,7 @@
 
 - name: Check valid combination of services for deployment
   fail:
-    msg: Deploy 'ois' services exclusively, or any combination of 'ceu', 'xml' and 'publ', not both
+    msg: Deploy 'ois' services exclusively, or any combination of 'ceu', 'xml' or 'publ', not both
   when: tuxedo_service_users | length > 1 and 'ois' in tuxedo_service_users
 
 - name: Check valid combination of services for development or staging environment
