@@ -10,10 +10,26 @@
 - name: Check required variables are set
   assert:
     that:
+      - tuxedo_service_users is defined and tuxedo_service_users | length > 0
       - environment_name is defined and environment_name | trim | length > 0
       - application_artifact_path is defined and application_artifact_path | trim | length > 0
       - application_configs_path is defined and application_configs_path | trim | length > 0
     msg: "Required variable(s) empty or undefined"
+
+- name: Check valid combination of services for deployment
+  fail:
+    msg: Deploy 'ois' services exclusively, or any combination of 'ceu', 'xml' or 'publ', not both
+  when: tuxedo_service_users | length > 1 and 'ois' in tuxedo_service_users
+
+- name: Check valid combination of services for development or staging environment
+  fail:
+    msg: Cannot deploy services other than 'ois' to this environment
+  when:  environment_name != "live" and 'ois' not in tuxedo_service_users
+
+- name: Check valid combination of services for live
+  fail:
+    msg: Cannot deploy 'ois' services to live; this is intended for development or staging only
+  when:  environment_name == "live" and 'ois' in tuxedo_service_users
 
 # The hostname is assumed to be in the format: ois-tuxedo-<environment>-<instance-index>
 - name: Set Tuxedo facts for config population
