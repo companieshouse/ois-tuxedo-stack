@@ -1,0 +1,76 @@
+#!/bin/bash
+
+tmadmin <<EOF
+crdl -b 200000 -z {{ tuxedo_queue_path }}
+crlog -m {{ tuxedo_logical_machine_id }}
+EOF
+
+qmadmin /home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }} <<EOF
+qspacecreate
+QSPACE
+{{ tuxedo_service_config[tuxedo_user].queue_space_ipc_key }}
+100000
+10
+20
+20
+750
+ERRORQ
+y
+16
+qopen QSPACE
+qcreate
+QSP_Ord
+fifo
+none
+10
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/qspord_capacity
+qcreate
+LCQ0110
+fifo
+none
+2
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/lcq0110_capacity
+qcreate
+LCQ0111
+fifo
+none
+2
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/lcq0111_capacity
+qcreate
+QSP_Can
+fifo
+none
+10
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/qspcan_capacity
+qcreate
+SMS_Ord
+fifo
+none
+10
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/smsord_capacity
+qcreate
+ERRORQ
+fifo
+none
+10
+30
+90%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/errorq_capacity
+qclose
+EOF
