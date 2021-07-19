@@ -14,6 +14,17 @@ tuxedo_logs_path: /var/log/tuxedo
 tuxedo_log_rotation_config_path: /etc/logrotate.tuxedo.conf
 
 tuxedo_log_files:
+  ceu:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-ceu-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-ceu-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-ceu-domaudit
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-ceu-orders
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-ceu-ulog
   ois:
     - file_pattern: aisord.log
       cloudwatch_log_group_name: ois-tuxedo-ois-aisord
@@ -27,6 +38,32 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-ois-sqsp
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-ois-ulog
+  publ:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-publ-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-publ-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-publ-domaudit
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-publ-orders
+    - file_pattern: sqsp.log
+      cloudwatch_log_group_name: ois-tuxedo-publ-sqsp
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-publ-ulog
+  xml:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-domaudit
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-orders
+    - file_pattern: sqsp.log
+      cloudwatch_log_group_name: ois-tuxedo-xml-sqsp
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-xml-ulog
 
 tuxedo_service_group: tuxedo
 tuxedo_service_ipc_key_start: 48000
