@@ -156,7 +156,10 @@ variable "tuxedo_services" {
   type        = map(number)
   description = "A map whose key-value pairs represent server-side tuxedo server groups and assocaited port numbers"
   default = {
-    ois   = 30000
+    ceu  = 38000,
+    ois  = 38100,
+    publ = 38200,
+    xml  = 38300,
   }
 }
 
