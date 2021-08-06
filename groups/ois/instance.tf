@@ -22,7 +22,7 @@ data "aws_subnet" "application" {
 data "aws_ami" "ois_tuxedo" {
   owners      = [var.ami_owner_id]
   most_recent = true
-  name_regex  = "^${var.service_subtype}-ami-\\d.\\d.\\d"
+  name_regex  = "^${var.service}-${var.service_subtype}-ami-\\d.\\d.\\d"
 
   filter {
     name   = "name"
