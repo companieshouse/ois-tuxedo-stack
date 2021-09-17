@@ -138,15 +138,23 @@ variable "tuxedo_user_logs" {
   description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing individual log files for each server group. Each object is expected to have at a minimum a 'name' key. A single CloudWatch log group will be created for each object. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-file to override the default values."
   default = {
     ceu = [
+      { name: "trlog"},
+      { name: "txlog"},
       { name: "ULOG" }
     ]
     ois = [
+      { name: "trlog"},
+      { name: "txlog"},
       { name: "ULOG" }
     ]
     publ = [
+      { name: "trlog"},
+      { name: "txlog"},
       { name: "ULOG" }
     ]
     xml = [
+      { name: "trlog"},
+      { name: "txlog"},
       { name: "ULOG" }
     ]
   }
