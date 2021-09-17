@@ -23,6 +23,10 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-ceu-domaudit
     - file_pattern: orders.log
       cloudwatch_log_group_name: ois-tuxedo-ceu-orders
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-ceu-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-ceu-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-ceu-ulog
   ois:
@@ -36,6 +40,10 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-ois-orders
     - file_pattern: sqsp.log
       cloudwatch_log_group_name: ois-tuxedo-ois-sqsp
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-ois-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-ois-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-ois-ulog
   publ:
@@ -49,6 +57,10 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-publ-orders
     - file_pattern: sqsp.log
       cloudwatch_log_group_name: ois-tuxedo-publ-sqsp
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-publ-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-publ-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-publ-ulog
   xml:
@@ -62,6 +74,10 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-xml-orders
     - file_pattern: sqsp.log
       cloudwatch_log_group_name: ois-tuxedo-xml-sqsp
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-xml-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-xml-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-xml-ulog
 
