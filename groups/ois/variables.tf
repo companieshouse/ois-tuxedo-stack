@@ -102,62 +102,11 @@ variable "service_subtype" {
 variable "tuxedo_service_logs" {
   type        = map(list(any))
   description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing user log files for each server group. Each object is expected to have at a minimum a 'name' key. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-file to override the default values and will apply to both standard error and standard output log groups for that log."
-  default = {
-    ceu = [
-      { name: "aisord" },
-      { name: "domain" },
-      { name: "domaudit" },
-      { name: "orders" }
-    ]
-    ois = [
-      { name: "aisord" },
-      { name: "domain" },
-      { name: "domaudit" },
-      { name: "orders" },
-      { name: "sqsp" }
-    ]
-    publ = [
-      { name: "aisord" },
-      { name: "domain" },
-      { name: "domaudit" },
-      { name: "orders" },
-      { name: "sqsp" }
-    ]
-    xml = [
-      { name: "aisord" },
-      { name: "domain" },
-      { name: "domaudit" },
-      { name: "orders" },
-      { name: "sqsp" }
-    ]
-  }
 }
 
 variable "tuxedo_user_logs" {
   type        = map(list(any))
   description = "A map whose keys represent server-side tuxedo server groups with lists of objects representing individual log files for each server group. Each object is expected to have at a minimum a 'name' key. A single CloudWatch log group will be created for each object. Optional 'log_retention_in_days' and 'kms_key_id' attributes can be set per-file to override the default values."
-  default = {
-    ceu = [
-      { name: "trlog"},
-      { name: "txlog"},
-      { name: "ULOG" }
-    ]
-    ois = [
-      { name: "trlog"},
-      { name: "txlog"},
-      { name: "ULOG" }
-    ]
-    publ = [
-      { name: "trlog"},
-      { name: "txlog"},
-      { name: "ULOG" }
-    ]
-    xml = [
-      { name: "trlog"},
-      { name: "txlog"},
-      { name: "ULOG" }
-    ]
-  }
 }
 
 variable "tuxedo_services" {

@@ -7,3 +7,45 @@ instance_count = 3
 instance_type = "m5.large"
 
 root_volume_size = 100
+
+tuxedo_service_logs = {
+  ceu = [
+    { name: "aisord" },
+    { name: "domain" },
+    { name: "domaudit" },
+    { name: "orders" }
+  ]
+  publ = [
+    { name: "aisord" },
+    { name: "domain" },
+    { name: "domaudit" },
+    { name: "orders" },
+    { name: "sqsp" }
+  ]
+  xml = [
+    { name: "aisord" },
+    { name: "domain" },
+    { name: "domaudit" },
+    { name: "orders" },
+    { name: "sqsp" }
+  ]
+}
+
+
+tuxedo_user_logs = {
+  ceu = [
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
+  ]
+  publ = [
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
+  ]
+  xml = [
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
+  ]
+}
