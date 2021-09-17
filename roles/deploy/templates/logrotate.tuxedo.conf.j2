@@ -11,7 +11,7 @@
   createolddir 0755 root root
 }
 
-{{ tuxedo_logs_path }}/*/ULOG.* {
+{{ tuxedo_logs_path }}/*/ULOG.* {{ tuxedo_logs_path }}/*/trlog.* {{ tuxedo_logs_path }}/*/txlog.* {
   daily
   copytruncate
   compress
@@ -23,6 +23,6 @@
   rotate 20
   createolddir 0755 root root
   lastaction
-    /bin/find /var/log/tuxedo -maxdepth 2 -name 'ULOG.*' -mtime +1 -size 0 -delete
+    /bin/find /var/log/tuxedo -maxdepth 2 -name 'ULOG.*' -o -name 'trlog.*' -o -name 'txlog.*' -mtime +1 -size 0 -delete
   endscript
 }
