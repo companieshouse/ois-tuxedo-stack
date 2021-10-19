@@ -49,3 +49,5 @@ tuxedo_user_logs = {
     { name: "ULOG" }
   ]
 }
+
+default_log_retention_in_days = 30
