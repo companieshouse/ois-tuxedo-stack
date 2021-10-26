@@ -26,9 +26,9 @@ The following sections detail the different areas of configuration supported by 
 
 ### Services
 
-Tuxedo services are configured using the `tuxedo_service_config` variable. A default configuration has been provided for the full set of services expected to operate in the development, staging, and production environments. This variable is defined as a map of maps whose keys represent separate groups of Tuxedo services. Each group corresponds to a Linux user login and provides a level of separation between logically related services (e.g. `ceu`, `ois`, `publ`, `ceu`). It should be noted that the production environment uses three separate user accounts for services (`ceu`, `publ`, and `ceu`) whereas the staging environment combines all services into a single user account (`ois`) therefore the configuration presented by `tuxedo_service_config` is used conditionally, dependent upon the environment that the deploy role is being executed against.
+Tuxedo services are configured using the `tuxedo_service_config` variable. A default configuration has been provided for the full set of services expected to operate in the development, staging, and production environments. This variable is defined as a dictionary of dictionaries whose keys represent separate groups of Tuxedo services. Each group corresponds to a Linux user login and provides a level of separation between logically related services (e.g. `ceu`, `ois`, `publ`, `ceu`). It should be noted that the production environment uses three separate user accounts for services (`ceu`, `publ`, and `ceu`) whereas the staging environment combines all services into a single user account (`ois`) therefore the configuration presented by `tuxedo_service_config` is used conditionally, dependent upon the environment that the deploy role is being executed against.
 
-Each map must include the following parameters unless marked _optional_:
+Each dictionary must include the following parameters unless marked _optional_:
 
 | Name                    | Default | Description                                                                           |
 |-------------------------|---------|---------------------------------------------------------------------------------------|
@@ -46,9 +46,7 @@ ansible-playbook -i inventory --extra-vars='{"tuxedo_service_users": ["ceu"]}'
 
 ### Logging
 
-Logging can be configured using the `tuxedo_log_files` configuration variable. This variable functions in a manner similar to `tuxedo_service_config` (see [Services][1]), whereby each key represents the configuration for a named group of Tuxedo services that correspond to a user account on the remote host. Each key should contain a list of maps
-
-`maintenance_jobs` should be defined as a dictionary of lists whose keys represent Tuxedo service users (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents a log file and requires the following parameters:
+Logging can be configured using the `tuxedo_log_files` configuration variable. This variable functions in a manner similar to `tuxedo_service_config` (see [Services][1]), whereby each key represents the configuration for a named group of Tuxedo services that correspond to a user account on the remote host. Each key should contain a list of dictionaries, and each list item should contain the following parameters:
 
 | Name                        | Default | Description                                                                           |
 |-----------------------------|---------|---------------------------------------------------------------------------------------|
