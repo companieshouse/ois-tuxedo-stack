@@ -20,6 +20,13 @@
     tuxedo_log_size: "{{ tuxedo_service_config[tuxedo_user].tuxedo_log_size }}"
   no_log: True
 
+- name: "{{ tuxedo_user }} : Remove maintenance jobs during deploy"
+  cron:
+    name: "{{ item.name }}"
+    user: "{{ tuxedo_user }}"
+    state: absent
+  loop: "{{ maintenance_jobs[tuxedo_user] | default([]) }}"
+
 - name: "{{ tuxedo_user }} : Create temporary directory for new {{ tuxedo_user }} deployment"
   become_user: "{{ tuxedo_user }}"
   tempfile:
@@ -56,6 +63,37 @@
   with_fileglob:
     - "{{ application_configs_path }}/{{ tuxedo_user }}/*.j2"
   no_log: True
+
+- name: Install SSH key for pushing function stats to remote
+  include_role:
+    name: ssh-key
+  vars:
+    ssh_key_owner: "{{ tuxedo_user }}"
+    ssh_key_group: "{{ tuxedo_user }}"
+    ssh_dir_group: "{{ tuxedo_user }}"
+    ssh_dir_owner: "{{ tuxedo_user }}"
+    ssh_key_name: "function-stats-remote"
+    hashicorp_vault_private_key_path: "/applications/heritage-{{ environment_name }}-eu-west-2/ois-tuxedo/stats"
+  when: stats.enabled
+
+- name: "{{ tuxedo_user }} : Create scripts directory"
+  file:
+    path: "{{ new_deployment_files.path }}/scripts"
+    owner: "{{ tuxedo_user }}"
+    group: "{{ tuxedo_user }}"
+    mode: 0755
+    state: directory
+
+- name: "{{ tuxedo_user }} : Populate script template files"
+  template:
+    src: "{{ item }}"
+    dest: "{{ new_deployment_files.path }}/scripts/{{ item | basename | replace('.j2', '') }}"
+    owner: "{{ tuxedo_user }}"
+    group: "{{ tuxedo_user }}"
+    mode: 0755
+  with_fileglob:
+    - "{{ scripts_path }}/*.j2"
+
 
 - name: "{{ tuxedo_user }} : Set permissions for new deployment files"
   file:
@@ -189,3 +227,15 @@
   shell: "source $HOME/deployment/config/envfile && tmboot -y"
   args:
     executable: /bin/bash
+
+- name: "{{ tuxedo_user }} : Create maintenance jobs"
+  cron:
+    name: "{{ item.name }}"
+    day: "{{ item.day_of_month }}"
+    weekday: "{{ item.day_of_week }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    month: "{{ item.month }}"
+    user: "{{ tuxedo_user }}"
+    job: "/home/{{ tuxedo_user }}/deployment/scripts/{{ item.script }}"
+  loop: "{{ maintenance_jobs[tuxedo_user] | default([]) }}"

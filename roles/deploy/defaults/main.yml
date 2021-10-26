@@ -1,5 +1,11 @@
 ---
 
+alerts:
+  enabled: no
+
+stats:
+  enabled: no
+
 cloudwatch_agent:
   path: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
   config_dir: /opt/aws/amazon-cloudwatch-agent/etc
@@ -9,6 +15,8 @@ cloudwatch_agent:
 
 getent_gid_index: 2
 getent_uid_index: 1
+
+smtp_mail_relay: smtp-outbound.sharedservices.aws.internal
 
 tuxedo_logs_path: /var/log/tuxedo
 tuxedo_log_rotation_config_path: /etc/logrotate.tuxedo.conf
