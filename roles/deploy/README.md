@@ -81,4 +81,4 @@ maintenance_jobs:
       script: "ois_status"
 ```
 
-During the `deploy` play, cron jobs are disabled (i.e. removed) early in the play to avoid generating false positive email alert and enabled again at the end of the play.
+During the `deploy` play, cron jobs are disabled (i.e. removed) early in the play to avoid generating false positive email alerts and enabled again at the end of the play.
