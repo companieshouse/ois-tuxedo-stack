@@ -24,7 +24,7 @@ This role encapsulates the tasks required to deploy Tuxedo services to cloud-bas
 
 The following sections detail the different areas of configuration supported by this role.
 
-### Services
+### Services
 
 Tuxedo services are configured using the `tuxedo_service_config` variable. A default configuration has been provided for the full set of services expected to operate in the development, staging, and production environments. This variable is defined as a map of maps whose keys represent separate groups of Tuxedo services. Each group corresponds to a Linux user login and provides a level of separation between logically related services (e.g. `ceu`, `ois`, `publ`, `ceu`). It should be noted that the production environment uses three separate user accounts for services (`ceu`, `publ`, and `ceu`) whereas the staging environment combines all services into a single user account (`ois`) therefore the configuration presented by `tuxedo_service_config` is used conditionally, dependent upon the environment that the deploy role is being executed against.
 
