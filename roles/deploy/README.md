@@ -6,13 +6,15 @@ This role implements a sequence of tasks required to deploy Tuxedo OIS services 
 
 * [Overview][1]
 * [Configuration][2]
-    * [Services][1]
-    * [Logging][2]
-    * [Maintenance jobs][3]
+    * [Services][3]
+    * [Logging][4]
+    * [Maintenance jobs][5]
 
 [1]: #overview
 [2]: #configuration
-[3]: #maintenance-jobs
+[3]: #services
+[4]: #logging
+[5]: #maintenance-jobs
 
 ## Overview
 
