@@ -1,5 +1,13 @@
 ---
 
+alerts:
+  enabled: yes
+  vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/alerts"
+
+stats:
+  enabled: yes
+  vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/stats"
+
 maintenance_jobs:
   xml:
     - name: Check OIS server status
