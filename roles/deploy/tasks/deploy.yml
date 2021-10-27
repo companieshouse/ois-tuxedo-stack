@@ -64,7 +64,7 @@
     - "{{ application_configs_path }}/{{ tuxedo_user }}/*.j2"
   no_log: True
 
-- name: Install SSH key for pushing function stats to remote
+- name: Install SSH key for remote stats host
   include_role:
     name: ssh-key
   vars:
