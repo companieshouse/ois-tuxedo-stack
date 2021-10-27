@@ -94,7 +94,6 @@
   with_fileglob:
     - "{{ scripts_path }}/*.j2"
 
-
 - name: "{{ tuxedo_user }} : Set permissions for new deployment files"
   file:
     path: "{{ new_deployment_files.path }}"
