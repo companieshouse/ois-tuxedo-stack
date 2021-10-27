@@ -68,7 +68,7 @@ The `maintenance_jobs` variable can be used to configure scheduled maintenance j
 | `day_of_month`       |         | Day of the month the job should run (`1-31`, `*`, `*/2`, and so on).                 |
 | `minute`             |         | Minute when the job should run (`0-59`, `*`, `*/2`, and so on).                      |
 | `hour`               |         | Hour when the job should run (`0-23`, `*`, `*/2`, and so on).                        |
-| `script`             |         | The name of the script to execute. This should correspond to a script that is present in the [ois-tuxedo-scripts](https://github.com/companieshouse/ois-tuxedo-scripts) artefact being used at the time the role is executed (i.e. the archive file whose path was provided with the `scripts_path` variable when executing `ansible-playbook`).
+| `script`             |         | The name of the script to execute. This should correspond to a script that is present in the [ois-tuxedo-scripts](https://github.com/companieshouse/ois-tuxedo-scripts) artefact being used at the time the role is executed (i.e. the archive file whose path was provided with the `scripts_artifact_path` variable when executing `ansible-playbook`).
 
 For example, to execute the `ois_status` script every minute of every day as the `ois` user:
 

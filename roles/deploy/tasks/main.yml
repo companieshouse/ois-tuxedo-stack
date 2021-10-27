@@ -14,7 +14,7 @@
       - environment_name is defined and environment_name | trim | length > 0
       - application_artifact_path is defined and application_artifact_path | trim | length > 0
       - application_configs_path is defined and application_configs_path | trim | length > 0
-      - scripts_path is defined and scripts_path | trim | length > 0
+      - scripts_artifact_path is defined and scripts_artifact_path | trim | length > 0
     msg: "Required variable(s) empty or undefined"
 
 - name: Check valid combination of services for deployment
