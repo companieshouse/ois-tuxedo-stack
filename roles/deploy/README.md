@@ -38,7 +38,7 @@ Each dictionary must include the following parameters unless marked _optional_:
 | `queue_space_2_ipc_key` |         | _Optional_. A unique IPC key value for services that use a second Tuxedo queue space. |
 | `tuxedo_log_size`       |         | The log size to use when creating the Tuxedo queue(s).                                |
 
-A `tuxedo_service_users` variable is required when running this role and can be provided using the `-e|--extra-vars` option to the `ansible-playbook` command. This variable should take the for of a list of group names that to be deployed, where each group name corresponds to a key in the `tuxedo_service_config` configuration variable discussed above. For example, to deploy only services for the `ceu` group:
+A `tuxedo_service_users` variable is required when running this role and can be provided using the `-e|--extra-vars` option to the `ansible-playbook` command. This variable should be defined as a list of group names to be deployed, where each group name corresponds to a key in the `tuxedo_service_config` configuration variable discussed above. For example, to deploy only services belonging to the `ceu` group:
 
 ```shell
 ansible-playbook -i inventory --extra-vars='{"tuxedo_service_users": ["ceu"]}'
@@ -46,27 +46,29 @@ ansible-playbook -i inventory --extra-vars='{"tuxedo_service_users": ["ceu"]}'
 
 ### Logging
 
-Logging can be configured using the `tuxedo_log_files` configuration variable. This variable functions in a manner similar to `tuxedo_service_config` (see [Services][1]), whereby each key represents the configuration for a named group of Tuxedo services that correspond to a user account on the remote host. Each key should contain a list of dictionaries, and each list item should contain the following parameters:
+Log data can be pushed to CloudWatch log groups automatically and is controlled by the `tuxedo_log_files` configuration variable. This variable functions in a manner similar to `tuxedo_service_config` (see [Services][1]), whereby each key represents the configuration for a named group of Tuxedo services, each of which corresponds to a user account on the remote host.
+
+`maintenance_jobs` should be defined as a dictionary of lists whose keys represent named groups of Tuxedo services (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents one or more log files and requires the following parameters:
 
 | Name                        | Default | Description                                                                           |
 |-----------------------------|---------|---------------------------------------------------------------------------------------|
-| `file_pattern`              |         | The log file name or a pattern to match against. Log files are assumed to reside in `/var/log/tuxedo/<service>` where `<service>` corresponds to the map key under which the list item containing this parameter is present. |
-| `cloudwatch_log_group_name` |         | The CloudWatch log group that will be used when pushing log data.                     |
+| `file_pattern`              |         | The log file name or a file name pattern to match against. Log files are assumed to reside in `/var/log/tuxedo/<service>` where `<service>` corresponds to the dictionary key under which the list item containing this parameter is defined. |
+| `cloudwatch_log_group_name` |         | The name of the CloudWatch log group that will be used when pushing log data.         |
 
 ### Maintenance jobs
 
-The `maintenance_jobs` variable can be used to configure scheduled maintenance jobs. This is used primarily as a group variable to configure environment-specific maintenance jobs, and is generally limited to the _live_ environment for generating alerts and statistics. The absence of this variable for a given environment means that _no_ scheduled jobs will be configured.
+The `maintenance_jobs` variable can be used to configure scheduled maintenance jobs. This is used primarily as a group variable to configure environment-specific maintenance jobs and is generally limited to the _live_ environment where alerts and statistics are required. The absence of a group variable for a given environment means that _no_ scheduled jobs will be configured.
 
-`maintenance_jobs` should be defined as a dictionary of lists whose keys represent Tuxedo service users (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents a scheduled job for a given Tuxedo service user and requires the following parameters:
+`maintenance_jobs` should be defined as a dictionary of lists whose keys represent named groups of Tuxedo services (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents a single scheduled job for the user matching the dictionary key under which the item is defined. The following parameters are required for each list item:
 
 | Name                 | Default | Description                                                                          |
 |----------------------|---------|--------------------------------------------------------------------------------------|
-| `name`               |         | A short description of the job.                                                      |
+| `name`               |         | A description of the job. This parameter should be unique across all jobs defined for a given group. |
 | `day_of_week`        |         | Day of the week that the job should run (`0-6` for Sunday-Saturday, `*`, and so on). |
 | `day_of_month`       |         | Day of the month the job should run (`1-31`, `*`, `*/2`, and so on).                 |
 | `minute`             |         | Minute when the job should run (`0-59`, `*`, `*/2`, and so on).                      |
 | `hour`               |         | Hour when the job should run (`0-23`, `*`, `*/2`, and so on).                        |
-| `script`             |         | The name of the script to execute. This should  [ois-tuxedo-scripts](https://github.com/companieshouse/ois-tuxedo-scripts) build artifact to be executed. Mutually exclusive with `job`.
+| `script`             |         | The name of the script to execute. This should correspond to a script that is present in the [ois-tuxedo-scripts](https://github.com/companieshouse/ois-tuxedo-scripts) artefact being used at the time the role is executed (i.e. the archive file whose path was provided with the `scripts_path` variable when executing `ansible-playbook`).
 
 For example, to execute the `ois_status` script every minute of every day as the `ois` user:
 
@@ -81,4 +83,4 @@ maintenance_jobs:
       script: "ois_status"
 ```
 
-During the `deploy` play, cron jobs are disabled (i.e. removed) early in the play to avoid generating false positive email alerts and enabled again at the end of the play.
+During the `deploy` play, cron jobs are temporarily disabled (i.e. removed) early in the play to avoid generating false positive email alerts and are enabled again at the end of the play.
