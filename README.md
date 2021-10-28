@@ -7,7 +7,7 @@ This project encapsulates the infrastructure and deployment code for OIS Tuxedo 
 
 The remainder of this document contains information that is specific to the branch in which it appears.
 
-## Deployment
+## Deployment
 
 This branch contains the deployment code responsible for deploying OIS Tuxedo services and is composed of a single Ansible role named `deploy` which is used primarily in CI to deploy OIS Tuxedo services for a given environment.
 
