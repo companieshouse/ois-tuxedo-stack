@@ -9,7 +9,7 @@ The remainder of this document contains information that is specific to the bran
 
 ## Deployment
 
-This branch contains the deployment code responsible for deploying OIS Tuxedo services and is composed of a single Ansible role named `deploy` which is used primarily in CI to deploy OIS Tuxedo services for a given environment.
+This branch (i.e. `deployment`) contains the deployment code responsible for deploying OIS Tuxedo services and is composed of a single Ansible role named `deploy` which is used primarily in CI to deploy groups of OIS Tuxedo services to a given environment.
 
 Refer to the [role documentation](roles/deploy/README.md) for further information.
 
