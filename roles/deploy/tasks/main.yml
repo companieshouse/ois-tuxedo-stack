@@ -14,6 +14,7 @@
       - environment_name is defined and environment_name | trim | length > 0
       - application_artifact_path is defined and application_artifact_path | trim | length > 0
       - application_configs_path is defined and application_configs_path | trim | length > 0
+      - scripts_artifact_path is defined and scripts_artifact_path | trim | length > 0
     msg: "Required variable(s) empty or undefined"
 
 - name: Check valid combination of services for deployment
@@ -104,6 +105,17 @@
     user: "root"
     job: "logrotate {{ tuxedo_log_rotation_config_path }}"
     cron_file: /etc/crontab
+
+- name: Install mailx mail processing system
+  yum:
+    name: mailx
+    state: present
+
+- name: Configure mailx SMTP relay
+  lineinfile:
+    path: /etc/mail.rc
+    regexp: '^set smtp='
+    line: 'set smtp={{ smtp_mail_relay }}'
 
 - include_tasks: deploy.yml
   loop: "{{ tuxedo_service_users }}"
