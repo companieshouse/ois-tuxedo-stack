@@ -86,6 +86,14 @@
     hashicorp_vault_private_key_path: "/applications/heritage-{{ environment_name }}-eu-west-2/ois-tuxedo/stats"
   when: stats.enabled
 
+- name: Add host keys for remote stats host
+  become_user: "{{ tuxedo_user }}"
+  known_hosts:
+    key: "{{ stats_config.ssh_remote_host_key }}"
+    name: "{{ stats_config.ssh_remote_host }}"
+    state: present
+  when: stats.enabled
+
 - name: "{{ tuxedo_user }} : Create scripts directory"
   file:
     path: "{{ new_deployment_files.path }}/scripts"
