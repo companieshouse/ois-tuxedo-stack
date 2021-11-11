@@ -124,6 +124,16 @@
     path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}"
   register: current_deployment_files
 
+- name: "{{ tuxedo_user }} : Stop daemon processes"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source {{ tuxedo_env_file_path }} && {{ item }}_stop"
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  loop:
+      - mncq
+      - packq
+
 - name: "{{ tuxedo_user }} : Stop Tuxedo services"
   become_user: "{{ tuxedo_user }}"
   shell: "source {{ tuxedo_env_file_path }} && tmshutdown -y"
@@ -244,6 +254,16 @@
   shell: "source $HOME/deployment/config/envfile && tmboot -y"
   args:
     executable: /bin/bash
+
+- name: "{{ tuxedo_user }} : Start daemon processes"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source {{ tuxedo_env_file_path }} && {{ item }}_start"
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  loop:
+      - mncq
+      - packq
 
 - name: "{{ tuxedo_user }} : Create maintenance jobs"
   cron:
