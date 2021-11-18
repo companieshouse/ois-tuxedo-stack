@@ -81,7 +81,7 @@ maintenance_jobs:
       hour: "00"
       month: "*"
       script: "morestats_miu"
-    - name: Generate XML statistics
+    - name: Generate PUBL statistics
       day_of_week: "*"
       day_of_month: "*"
       minute: "28"
@@ -116,3 +116,46 @@ maintenance_jobs:
       hour: "07-19"
       month: "*"
       script: "check_sendblocked"
+  ceu:
+    - name: Check OIS server status (8:30)
+      day_of_week: "1-5"
+      day_of_month: "*"
+      minute: "33-59"
+      hour: "8"
+      month: "*"
+      script: "ois_status"
+    - name: Check OIS server status
+      day_of_week: "1-5"
+      day_of_month: "*"
+      minute: "01-59"
+      hour: "9-17"
+      month: "*"
+      script: "ois_status"
+    - name: Check error queue(s)
+      day_of_week: "1-5"
+      day_of_month: "*"
+      minute: "00"
+      hour: "9,15"
+      month: "*"
+      script: "check_errorq"
+    - name: Generate and send function stats
+      day_of_week: "*"
+      day_of_month: "*"
+      minute: "20"
+      hour: "00"
+      month: "*"
+      script: "morestats_miu"
+    - name: Generate CEU statistics
+      day_of_week: "2-6"
+      day_of_month: "*"
+      minute: "25"
+      hour: "00"
+      month: "*"
+      script: "oisstats_cron"
+    - name: Check image ordering errors
+      day_of_week: "*"
+      day_of_month: "*"
+      minute: "*"
+      hour: "7-17"
+      month: "*"
+      script: "fail_check"
