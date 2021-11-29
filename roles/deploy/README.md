@@ -52,7 +52,7 @@ ansible-playbook -i inventory --extra-vars='{"tuxedo_service_users": ["ceu"]}'
 
 Log data can be pushed to CloudWatch log groups automatically and is controlled by the `tuxedo_log_files` configuration variable. This variable functions in a manner similar to `tuxedo_service_config` (see [Services][3]), whereby each key represents the configuration for a named group of Tuxedo services, each of which corresponds to a user account on the remote host.
 
-`maintenance_jobs` should be defined as a dictionary of lists whose keys represent named groups of Tuxedo services (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents one or more log files and requires the following parameters:
+`tuxedo_log_files` should be defined as a dictionary of lists whose keys represent named groups of Tuxedo services (e.g. `ois`, `xml`, `ceu` or `publ`). Each list item represents one or more log files and requires the following parameters:
 
 | Name                        | Default | Description                                                                           |
 |-----------------------------|---------|---------------------------------------------------------------------------------------|
