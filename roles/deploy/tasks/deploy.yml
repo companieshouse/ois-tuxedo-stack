@@ -133,7 +133,7 @@
   loop:
       - mncq
       - packq
-  when: tuxedo_user != 'ceu'
+  when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Stop Tuxedo services"
   become_user: "{{ tuxedo_user }}"
@@ -265,7 +265,7 @@
   loop:
       - mncq
       - packq
-  when: tuxedo_user != 'ceu'
+  when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Create maintenance jobs"
   cron:

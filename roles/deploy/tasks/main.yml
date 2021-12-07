@@ -25,12 +25,12 @@
 - name: Check valid combination of services for development or staging environment
   fail:
     msg: Cannot deploy services other than 'ois' to this environment
-  when:  environment_name != "live" and 'ois' not in tuxedo_service_users
+  when:  environment_name != "live" and "ois" not in tuxedo_service_users
 
 - name: Check valid combination of services for live
   fail:
     msg: Cannot deploy 'ois' services to live; this is intended for development or staging only
-  when:  environment_name == "live" and 'ois' in tuxedo_service_users
+  when:  environment_name == "live" and "ois" in tuxedo_service_users
 
 # The hostname is assumed to be in the format: ois-tuxedo-<environment>-<instance-index>
 - name: Set Tuxedo facts for config population
