@@ -1,7 +1,7 @@
 #!/bin/bash
 
 tmadmin <<EOF
-crdl -b 550000 -z {{ tuxedo_queue_path }}
+crdl -b 500000 -z {{ tuxedo_queue_path }}
 crlog -m {{ tuxedo_logical_machine_id }}
 EOF
 
@@ -9,7 +9,7 @@ qmadmin /home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }} <<EOF
 qspacecreate
 QSPACE
 {{ tuxedo_service_config[tuxedo_user].queue_space_ipc_key }}
-450000
+300000
 10
 20
 20
@@ -19,59 +19,50 @@ y
 16
 qopen QSPACE
 qcreate
-QSP_Ord
-fifo
-none
-10
-30
-90%
-10%
-/bin/touch /var/log/{{ tuxedo_user }}/qspord_capacity
-qcreate
-LCQ0110
-fifo
-none
-2
-30
-90%
-10%
-/bin/touch /var/log/{{ tuxedo_user }}/lcq0110_capacity
-qcreate
 LCQ0111
 fifo
 none
-2
+10
 30
-90%
+80%
 10%
 /bin/touch /var/log/{{ tuxedo_user }}/lcq0111_capacity
 qcreate
-QSP_Can
+LCQ0112
 fifo
 none
 10
 30
-90%
+80%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/qspcan_capacity
-qcreate
-SMS_Ord
-fifo
-none
-10
-30
-90%
-10%
-/bin/touch /var/log/{{ tuxedo_user }}/smsord_capacity
+/bin/touch /var/log/{{ tuxedo_user }}/lcq0112_capacity
 qcreate
 ERRORQ
 fifo
 none
 10
 30
-90%
+80%
 10%
 /bin/touch /var/log/{{ tuxedo_user }}/errorq_capacity
+qcreate
+IMAN_Cre
+fifo
+none
+10
+30
+80%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/imancre_capacity
+qcreate
+IMAN_Upd
+fifo
+none
+10
+30
+80%
+10%
+/bin/touch /var/log/{{ tuxedo_user }}/imanupd_capacity
 qclose
 qspacecreate
 QSPACE2
