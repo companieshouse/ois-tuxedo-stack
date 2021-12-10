@@ -91,6 +91,10 @@ tuxedo_log_files:
   wck:
     - file_pattern: aisord.log
       cloudwatch_log_group_name: ois-tuxedo-wck-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-domaudit
     - file_pattern: orders.log
       cloudwatch_log_group_name: ois-tuxedo-wck-orders
     - file_pattern: trlog*
