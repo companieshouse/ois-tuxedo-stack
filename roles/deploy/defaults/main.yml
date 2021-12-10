@@ -88,6 +88,17 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-xml-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-xml-ulog
+  wck:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-aisord
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-orders
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-wck-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-wck-txlog
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-wck-ulog
 
 tuxedo_service_group: tuxedo
 tuxedo_service_ipc_key_start: 48000
