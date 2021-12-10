@@ -124,16 +124,21 @@
     path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}"
   register: current_deployment_files
 
-- name: "{{ tuxedo_user }} : Stop daemon processes"
+- name: "{{ tuxedo_user }} : Stop mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && {{ item }}_stop"
+  shell: "source {{ tuxedo_env_file_path }} && mncq_stop"
   args:
     executable: /bin/bash
   ignore_errors: yes
-  loop:
-      - mncq
-      - packq
-  when: tuxedo_user != "ceu"
+  when: tuxedo_user != "ceu" and tuxedo_user != "wck"
+
+- name: "{{ tuxedo_user }} : Stop packq daemon processes"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source {{ tuxedo_env_file_path }} && packq_stop"
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  when: tuxedo_user != "ceu" and tuxedo_user != "xml"
 
 - name: "{{ tuxedo_user }} : Stop Tuxedo services"
   become_user: "{{ tuxedo_user }}"
@@ -256,16 +261,21 @@
   args:
     executable: /bin/bash
 
-- name: "{{ tuxedo_user }} : Start daemon processes"
+- name: "{{ tuxedo_user }} : Start mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && {{ item }}_start"
+  shell: "source {{ tuxedo_env_file_path }} && mncq_start"
   args:
     executable: /bin/bash
   ignore_errors: yes
-  loop:
-      - mncq
-      - packq
-  when: tuxedo_user != "ceu"
+  when: tuxedo_user != "ceu" and tuxedo_user != "wck"
+
+- name: "{{ tuxedo_user }} : Start packq daemon processes"
+  become_user: "{{ tuxedo_user }}"
+  shell: "source {{ tuxedo_env_file_path }} && packq_start"
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
+  when: tuxedo_user != "ceu" and tuxedo_user != "xml"
 
 - name: "{{ tuxedo_user }} : Create maintenance jobs"
   cron:

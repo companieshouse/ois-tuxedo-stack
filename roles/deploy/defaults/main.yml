@@ -88,6 +88,21 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-xml-txlog
     - file_pattern: ULOG*
       cloudwatch_log_group_name: ois-tuxedo-xml-ulog
+  wck:
+    - file_pattern: aisord.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-aisord
+    - file_pattern: domain.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-domain
+    - file_pattern: domaudit.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-domaudit
+    - file_pattern: orders.log
+      cloudwatch_log_group_name: ois-tuxedo-wck-orders
+    - file_pattern: trlog*
+      cloudwatch_log_group_name: ois-tuxedo-wck-trlog
+    - file_pattern: txlog*
+      cloudwatch_log_group_name: ois-tuxedo-wck-txlog
+    - file_pattern: ULOG*
+      cloudwatch_log_group_name: ois-tuxedo-wck-ulog
 
 tuxedo_service_group: tuxedo
 tuxedo_service_ipc_key_start: 48000
@@ -114,12 +129,18 @@ tuxedo_service_config:
     ipc_key: "{{ tuxedo_service_ipc_key_start + (2 * tuxedo_service_ipc_key_increment) | int }}"
     local_domain_port: "{{ tuxedo_service_domain_port_start + (2 * tuxedo_service_domain_port_increment) | int }}"
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (2 * tuxedo_queue_space_ipc_key_increment) | int }}"
-    queue_space_2_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (2 * tuxedo_queue_space_ipc_key_increment +  1) | int }}"
+    queue_space_2_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (2 * tuxedo_queue_space_ipc_key_increment) +  1 | int }}"
     tuxedo_log_size: 10
   xml:
     ipc_key: "{{ tuxedo_service_ipc_key_start + (3 * tuxedo_service_ipc_key_increment) | int }}"
     local_domain_port: "{{ tuxedo_service_domain_port_start + (3 * tuxedo_service_domain_port_increment) | int }}"
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (3 * tuxedo_queue_space_ipc_key_increment) | int }}"
+    tuxedo_log_size: 10
+  wck:
+    ipc_key: "{{ tuxedo_service_ipc_key_start + (4 * tuxedo_service_ipc_key_increment) | int }}"
+    local_domain_port: "{{ tuxedo_service_domain_port_start + (4 * tuxedo_service_domain_port_increment) | int }}"
+    queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (4 * tuxedo_queue_space_ipc_key_increment) | int }}"
+    queue_space_2_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (4 * tuxedo_queue_space_ipc_key_increment) +  1 | int }}"
     tuxedo_log_size: 10
 
 deployment_dir: deployment
