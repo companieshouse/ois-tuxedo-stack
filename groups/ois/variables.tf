@@ -117,6 +117,7 @@ variable "tuxedo_services" {
     ois  = 38100,
     publ = 38200,
     xml  = 38300,
+    wck  = 38400,
   }
 }
 

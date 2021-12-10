@@ -29,6 +29,12 @@ tuxedo_service_logs = {
     { name: "orders" },
     { name: "sqsp" }
   ]
+  wck = [
+    { name: "aisord" },
+    { name: "domain" },
+    { name: "domaudit" },
+    { name: "orders" }
+  ]
 }
 
 
@@ -44,6 +50,11 @@ tuxedo_user_logs = {
     { name: "ULOG" }
   ]
   xml = [
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
+  ]
+  wck = [
     { name: "trlog"},
     { name: "txlog"},
     { name: "ULOG" }
