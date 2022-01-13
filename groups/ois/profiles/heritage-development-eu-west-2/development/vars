@@ -14,6 +14,7 @@ tuxedo_service_logs = {
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
+    { name: "qspbatch" },
     { name: "sqsp" }
   ]
 }

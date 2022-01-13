@@ -33,7 +33,8 @@ tuxedo_service_logs = {
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
-    { name: "orders" }
+    { name: "orders" },
+    { name: "qspbatch" }
   ]
 }
 
