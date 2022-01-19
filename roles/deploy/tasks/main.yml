@@ -112,15 +112,15 @@
     setype: var_log_t
     state: present
   loop:
-    - "/opt/aws/amazon-cloudwatch-agent/logs"
-    - /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log"
+    - /opt/aws/amazon-cloudwatch-agent/logs
+    - /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
   register: selinux_context
 
 - name: Apply SELinux file context for CloudWatch log
   command: "restorecon {{ item }}"
   loop:
-    - "/opt/aws/amazon-cloudwatch-agent/logs"
-    - /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log"
+    - /opt/aws/amazon-cloudwatch-agent/logs
+    - /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
   when: selinux_context.changed
 
 - name: Install mailx mail processing system
