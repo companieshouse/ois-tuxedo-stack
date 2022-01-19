@@ -286,5 +286,5 @@
     hour: "{{ item.hour }}"
     month: "{{ item.month }}"
     user: "{{ tuxedo_user }}"
-    job: "/home/{{ tuxedo_user }}/deployment/scripts/{{ item.script }}"
+    job: "source ~/deployment/config/envfile && /home/{{ tuxedo_user }}/deployment/scripts/{{ item.script }}"
   loop: "{{ maintenance_jobs[tuxedo_user] | default([]) }}"
