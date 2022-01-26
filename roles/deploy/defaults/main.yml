@@ -123,6 +123,7 @@ tuxedo_service_config:
     local_domain_port: "{{ tuxedo_service_domain_port_start + (0 * tuxedo_service_domain_port_increment) | int }}"
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (0 * tuxedo_queue_space_ipc_key_increment) | int }}"
     tuxedo_log_size: 10
+    orders_min_boot_count: 4
   ois:
     ipc_key: "{{ tuxedo_service_ipc_key_start + (1 * tuxedo_service_ipc_key_increment) | int }}"
     local_domain_port: "{{ tuxedo_service_domain_port_start + (1 * tuxedo_service_domain_port_increment) | int }}"
@@ -146,6 +147,7 @@ tuxedo_service_config:
     queue_space_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (4 * tuxedo_queue_space_ipc_key_increment) | int }}"
     queue_space_2_ipc_key: "{{ tuxedo_queue_space_ipc_key_start + (4 * tuxedo_queue_space_ipc_key_increment) +  1 | int }}"
     tuxedo_log_size: 10
+    orders_min_boot_count: 10
 
 deployment_dir: deployment
 rollback_dir: rollback
