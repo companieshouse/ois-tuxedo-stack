@@ -84,7 +84,7 @@ resource "aws_security_group" "common" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.common_tags ,{
+  tags = merge(local.common_tags, {
     Name = "common-${local.common_resource_name}"
   })
 }
@@ -122,7 +122,7 @@ resource "aws_instance" "ois" {
     volume_size = var.root_volume_size
   }
 
-  tags = merge(local.common_tags ,{
+  tags = merge(local.common_tags, {
     Name = "${var.service_subtype}-${var.service}-${var.environment}-${count.index + 1}"
   })
   volume_tags = local.common_tags
