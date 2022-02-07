@@ -23,7 +23,7 @@ resource "aws_lambda_function" "qsp_transfer" {
       FTP_HOST         = var.qsp_transfer_ftp_host
       FTP_PATH         = var.qsp_transfer_ftp_path
       LOG_GROUP_NAME   = local.qsp_transfer_log_group_name
-      SECRET_NAME      = aws_kms_alias.ois.arn
+      SECRET_NAME      = aws_secretsmanager_secret_version.qsp_transfer.arn
     }
   }
 }
