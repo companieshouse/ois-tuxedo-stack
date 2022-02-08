@@ -22,7 +22,7 @@ resource "aws_lambda_function" "qsp_transfer" {
       DATA_FILE_PREFIX = "CreditCard"
       FTP_HOST         = var.qsp_transfer_ftp_host
       FTP_PATH         = var.qsp_transfer_ftp_path
-      LOG_GROUP_NAME   = local.qsp_transfer_log_group_name
+      LOG_GROUP_NAME   = var.qsp_transfer_log_group_name
       SECRET_NAME      = aws_secretsmanager_secret_version.qsp_transfer.arn
     }
   }
@@ -112,93 +112,6 @@ resource "aws_iam_role_policy_attachment" "qsp_transfer_vpc_access" {
   policy_arn = data.aws_iam_policy.qsp_transfer_vpc_access.arn
 }
 
-data "aws_iam_policy_document" "qsp_transfer_trust" {
-  statement {
-    sid = "LambdaCanAssumeThisRole"
-
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole"
-    ]
-
-    principals {
-      type = "Service"
-
-      identifiers = [
-        "lambda.amazonaws.com"
-      ]
-    }
-  }
-}
-
-data "aws_iam_policy_document" "qsp_transfer_execution" {
-  dynamic "statement" {
-    for_each = var.qsp_transfer_enabled ? [1] : []
-
-    content {
-      sid = "AllowLambdaLoggingToCloudWatchLogGroup"
-
-      effect = "Allow"
-
-      actions = [
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ]
-
-      resources = ["${aws_cloudwatch_log_group.qsp_transfer[0].arn}:*"]
-    }
-  }
-
-  dynamic "statement" {
-    for_each = var.qsp_transfer_enabled ? [1] : []
-
-    content {
-      sid = "AllowLambdaReadAccessToQSPLogEvents"
-
-      effect = "Allow"
-
-      actions = [
-        "logs:FilterLogEvents"
-      ]
-
-      resources = ["${aws_cloudwatch_log_group.tuxedo[local.qsp_transfer_log_group_name].arn}:*"]
-    }
-  }
-
-  dynamic "statement" {
-    for_each = var.qsp_transfer_enabled ? [1] : []
-
-    content {
-      sid = "AllowLambdaToReadSecretData"
-
-      effect = "Allow"
-
-      actions = [
-        "secretsmanager:GetSecretValue"
-      ]
-
-      resources = [aws_secretsmanager_secret_version.qsp_transfer.arn]
-    }
-  }
-
-  dynamic "statement" {
-    for_each = var.qsp_transfer_enabled ? [1] : []
-
-    content {
-      sid = "AllowLambdaToDecryptSecretDataWithThisKey"
-
-      effect = "Allow"
-
-      actions = [
-        "kms:Decrypt"
-      ]
-
-      resources = [aws_kms_key.ois.arn]
-    }
-  }
-}
-
 resource "aws_secretsmanager_secret" "qsp_transfer" {
   name       = local.qsp_transfer_common_name
   kms_key_id = aws_kms_key.ois.arn
@@ -207,8 +120,4 @@ resource "aws_secretsmanager_secret" "qsp_transfer" {
 resource "aws_secretsmanager_secret_version" "qsp_transfer" {
   secret_id     = aws_secretsmanager_secret.qsp_transfer.id
   secret_string = jsonencode(data.vault_generic_secret.qsp_transfer.data)
-}
-
-data "aws_iam_policy" "qsp_transfer_vpc_access" {
-  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }

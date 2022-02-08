@@ -103,6 +103,11 @@ variable "qsp_transfer_handler_name" {
   default     = "qsp_transfer.lambda_handler"
 }
 
+variable "qsp_transfer_log_group_name" {
+  type        = string
+  description = "The name of the log group containing data to be processed by the QSP transfer Lambda Function"
+}
+
 variable "qsp_transfer_log_retention_in_days" {
   type        = number
   description = "The default retention period in days for QSP transfer logs"
