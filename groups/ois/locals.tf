@@ -58,5 +58,5 @@ locals {
   logs_kms_key_id = data.vault_generic_secret.kms_keys.data["logs"]
 
   qsp_transfer_count       = var.qsp_transfer_enabled ? 1 : 0
-  qsp_transfer_common_name = "${local.common_resource_name}-qsp-transfer"]
+  qsp_transfer_common_name = "${local.common_resource_name}-qsp-transfer"
 }
