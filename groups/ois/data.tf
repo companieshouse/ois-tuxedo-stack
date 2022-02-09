@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "qsp_transfer_execution" {
         "secretsmanager:GetSecretValue"
       ]
 
-      resources = [aws_secretsmanager_secret_version.qsp_transfer.arn]
+      resources = [aws_secretsmanager_secret_version.qsp_transfer[0].arn]
     }
   }
 

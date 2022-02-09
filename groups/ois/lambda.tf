@@ -23,7 +23,7 @@ resource "aws_lambda_function" "qsp_transfer" {
       FTP_HOST         = var.qsp_transfer_ftp_host
       FTP_PATH         = var.qsp_transfer_ftp_path
       LOG_GROUP_NAME   = var.qsp_transfer_log_group_name
-      SECRET_NAME      = aws_secretsmanager_secret_version.qsp_transfer.arn
+      SECRET_NAME      = aws_secretsmanager_secret_version.qsp_transfer[0].arn
     }
   }
 }
