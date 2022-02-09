@@ -113,11 +113,15 @@ resource "aws_iam_role_policy_attachment" "qsp_transfer_vpc_access" {
 }
 
 resource "aws_secretsmanager_secret" "qsp_transfer" {
+  count = local.qsp_transfer_count
+
   name       = local.qsp_transfer_common_name
   kms_key_id = aws_kms_key.ois.arn
 }
 
 resource "aws_secretsmanager_secret_version" "qsp_transfer" {
+  count = local.qsp_transfer_count
+
   secret_id     = aws_secretsmanager_secret.qsp_transfer.id
   secret_string = jsonencode(data.vault_generic_secret.qsp_transfer.data)
 }
