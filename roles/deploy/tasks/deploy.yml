@@ -2,6 +2,7 @@
 
 - name: Set additional variables for template population
   set_fact:
+    orders_min_boot_count: "{{ tuxedo_service_config[tuxedo_user].orders_min_boot_count | default(8) }}"
     private_host_address: "{{ inventory_hostname }}"
     private_host_local_domain_port: "{{ tuxedo_service_config[tuxedo_user].local_domain_port }}"
     service_name: "{{ tuxedo_user }}"
