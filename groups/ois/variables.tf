@@ -109,7 +109,7 @@ variable "qsp_transfer_handler_name" {
 variable "qsp_transfer_log_group_name" {
   type        = string
   description = "The name of the log group containing data to be processed by the QSP transfer Lambda Function"
-  defautl     = ""
+  default     = ""
 }
 
 variable "qsp_transfer_log_retention_in_days" {
