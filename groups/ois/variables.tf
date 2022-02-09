@@ -73,11 +73,13 @@ variable "lvm_block_devices" {
 variable "qsp_transfer_artifact_key" {
   type        = string
   description = "The release artifact key for the QSP transfer Lambda Function"
+  default     = ""
 }
 
 variable "qsp_transfer_bucket_name" {
   type        = string
   description = "The name of the S3 bucket containing the release artifact for the QSP transfer Lambda Function"
+  default     = ""
 }
 
 variable "qsp_transfer_enabled" {
@@ -89,6 +91,7 @@ variable "qsp_transfer_enabled" {
 variable "qsp_transfer_ftp_host" {
   type        = string
   description = "The FTP host to be used for QSP data transfers"
+  default     = ""
 }
 
 variable "qsp_transfer_ftp_path" {
@@ -106,6 +109,7 @@ variable "qsp_transfer_handler_name" {
 variable "qsp_transfer_log_group_name" {
   type        = string
   description = "The name of the log group containing data to be processed by the QSP transfer Lambda Function"
+  defautl     = ""
 }
 
 variable "qsp_transfer_log_retention_in_days" {
