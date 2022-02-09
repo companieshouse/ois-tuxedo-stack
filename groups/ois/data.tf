@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "qsp_transfer_execution" {
         "kms:Decrypt"
       ]
 
-      resources = [aws_kms_key.ois.arn]
+      resources = [aws_kms_key.ois[0].arn]
     }
   }
 }

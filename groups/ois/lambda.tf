@@ -10,10 +10,10 @@ resource "aws_lambda_function" "qsp_transfer" {
   memory_size   = var.qsp_transfer_memory_size
   timeout       = var.qsp_transfer_timeout
   runtime       = var.qsp_transfer_runtime
-  kms_key_arn   = aws_kms_key.ois.arn
+  kms_key_arn   = aws_kms_key.ois[0].arn
 
   vpc_config {
-    security_group_ids = [aws_security_group.qsp_transfer.id]
+    security_group_ids = [aws_security_group.qsp_transfer[0].id]
     subnet_ids         = data.aws_subnet.application.*.id
   }
 
@@ -29,6 +29,8 @@ resource "aws_lambda_function" "qsp_transfer" {
 }
 
 resource "aws_security_group" "qsp_transfer" {
+  count = local.qsp_transfer_count
+
   name   = local.qsp_transfer_common_name
   vpc_id = data.aws_vpc.heritage.id
 
@@ -116,7 +118,7 @@ resource "aws_secretsmanager_secret" "qsp_transfer" {
   count = local.qsp_transfer_count
 
   name       = local.qsp_transfer_common_name
-  kms_key_id = aws_kms_key.ois.arn
+  kms_key_id = aws_kms_key.ois[0].arn
 }
 
 resource "aws_secretsmanager_secret_version" "qsp_transfer" {
