@@ -122,6 +122,6 @@ resource "aws_secretsmanager_secret" "qsp_transfer" {
 resource "aws_secretsmanager_secret_version" "qsp_transfer" {
   count = local.qsp_transfer_count
 
-  secret_id     = aws_secretsmanager_secret.qsp_transfer.id
-  secret_string = jsonencode(data.vault_generic_secret.qsp_transfer.data)
+  secret_id     = aws_secretsmanager_secret.qsp_transfer[0].id
+  secret_string = jsonencode(data.vault_generic_secret.qsp_transfer[0].data)
 }
