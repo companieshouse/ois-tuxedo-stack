@@ -197,5 +197,7 @@ data "vault_generic_secret" "security_kms_keys" {
 }
 
 data "vault_generic_secret" "qsp_transfer" {
+  count = local.qsp_transfer_count
+
   path = "applications/${var.aws_account}-${var.region}/${var.service_subtype}-${var.service}/qsp-transfer"
 }
