@@ -133,7 +133,7 @@ variable "qsp_transfer_runtime" {
 variable "qsp_transfer_schedule" {
   type        = string
   description = "A string representing the QSP transfer Lambda Function schedule. For example, cron(0 20 * * ? *) or rate(5 minutes)."
-  default     = "cron(0 15 * * ? *)"
+  default     = "cron(0 3 * * ? *)"
 }
 
 variable "qsp_transfer_timeout" {
