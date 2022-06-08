@@ -6,13 +6,13 @@
     private_host_address: "{{ inventory_hostname }}"
     private_host_local_domain_port: "{{ tuxedo_service_config[tuxedo_user].local_domain_port }}"
     service_name: "{{ tuxedo_user }}"
-    tuxedo_env_file_path: "/home/{{ tuxedo_user }}/deployment/config/envfile"
-    tuxedo_orders_env_file_path: "/home/{{ tuxedo_user }}/deployment/config/ordersenvfile"
+    tuxedo_env_file_path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config/envfile"
+    tuxedo_orders_env_file_path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config/ordersenvfile"
     tuxedo_domain_id: "{{ tuxedo_user | upper }}_{{ 'OIS_' if environment_name == 'live' }}{{ tuxedo_domain_id_suffix }}"
     tuxedo_group_id: "{{ getent_passwd[tuxedo_user][getent_gid_index] }}"
     tuxedo_ipc_key: "{{ tuxedo_service_config[tuxedo_user].ipc_key }}"
-    tuxedo_klist_file_path: "/home/{{ tuxedo_user }}/deployment/config/klist"
-    tuxedo_finance_file_path: "/home/{{ tuxedo_user }}/deployment/config/finance"
+    tuxedo_klist_file_path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config/klist"
+    tuxedo_finance_file_path: "/home/{{ tuxedo_user }}/{{ deployment_dir }}/config/finance"
     tuxedo_local_domain_id: "{{ tuxedo_user | upper }}_{{ 'OIS_' if environment_name == 'live' }}{{ tuxedo_local_domain_suffix }}"
     tuxedo_logical_machine_id: "{{ tuxedo_user | upper }}_{{ 'OIS_' if environment_name == 'live' }}{{ tuxedo_logical_machine_id_suffix }}"
     tuxedo_machine_name: "{{ ansible_facts.hostname }}"
@@ -127,7 +127,7 @@
 
 - name: "{{ tuxedo_user }} : Stop mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && mncq_stop"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_stop"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -135,7 +135,7 @@
 
 - name: "{{ tuxedo_user }} : Stop packq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && packq_stop"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_stop"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -258,13 +258,13 @@
 
 - name: "{{ tuxedo_user }} : Start Tuxedo services"
   become_user: "{{ tuxedo_user }}"
-  shell: "source $HOME/deployment/config/envfile && tmboot -y"
+  shell: "source /home/{{ tuxedo_user }}/{{ deployment_dir }}/config/envfile && tmboot -y"
   args:
     executable: /bin/bash
 
 - name: "{{ tuxedo_user }} : Start mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && mncq_start"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_start"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -272,7 +272,7 @@
 
 - name: "{{ tuxedo_user }} : Start packq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && packq_start"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_start"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -287,5 +287,5 @@
     hour: "{{ item.hour }}"
     month: "{{ item.month }}"
     user: "{{ tuxedo_user }}"
-    job: "source ~/deployment/config/envfile && /home/{{ tuxedo_user }}/deployment/scripts/{{ item.script }}"
+    job: "source /home/{{ tuxedo_user }}/{{ deployment_dir }}/config/envfile && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/{{ item.script }}"
   loop: "{{ maintenance_jobs[tuxedo_user] | default([]) }}"
