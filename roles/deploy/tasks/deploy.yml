@@ -127,7 +127,7 @@
 
 - name: "{{ tuxedo_user }} : Stop mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && mncq_stop"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_stop"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -135,7 +135,7 @@
 
 - name: "{{ tuxedo_user }} : Stop packq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && packq_stop"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_stop"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -264,7 +264,7 @@
 
 - name: "{{ tuxedo_user }} : Start mncq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && mncq_start"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_start"
   args:
     executable: /bin/bash
   ignore_errors: yes
@@ -272,7 +272,7 @@
 
 - name: "{{ tuxedo_user }} : Start packq daemon processes"
   become_user: "{{ tuxedo_user }}"
-  shell: "source {{ tuxedo_env_file_path }} && packq_start"
+  shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_start"
   args:
     executable: /bin/bash
   ignore_errors: yes
