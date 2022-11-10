@@ -10,6 +10,7 @@ cloudwatch_agent:
   path: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
   config_dir: /opt/aws/amazon-cloudwatch-agent/etc
   log_file: /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
+  metrics_enabled: false
   metrics_collection_interval: 60
   user: cwagent
 

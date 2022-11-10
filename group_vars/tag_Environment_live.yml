@@ -8,6 +8,9 @@ stats:
   enabled: yes
   vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/stats"
 
+cloudwatch_agent_overrides:
+  metrics_enabled: true
+
 maintenance_jobs:
   xml:
     - name: Check OIS server status
