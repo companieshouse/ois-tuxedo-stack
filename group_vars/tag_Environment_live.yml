@@ -11,6 +11,15 @@ stats:
 cloudwatch_agent_overrides:
   metrics_enabled: true
 
+# This mount is shared with fil-tuxedo-stack servers; the morestats_miu
+# Informix maintenance job generates output files to a directory in the
+# shared mount, and the fil-tuxedo-stack script ois_stats_update reads
+# and processes those files
+nfsmounts:
+  - path: "/data1/apps/scud"
+    src: "ipo-file-svm-lif-be1.internal.ch:scanning"
+    symlink: "/scanning"
+
 maintenance_jobs:
   xml:
     - name: Check OIS server status
