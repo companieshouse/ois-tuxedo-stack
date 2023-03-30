@@ -124,16 +124,10 @@
     - /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
   when: selinux_context.changed
 
-- name: Install mailx mail processing system
-  yum:
-    name: mailx
-    state: present
+- import_tasks: tools.yml
 
-- name: Configure mailx SMTP relay
-  lineinfile:
-    path: /etc/mail.rc
-    regexp: '^set smtp='
-    line: 'set smtp={{ smtp_mail_relay }}'
+- include_tasks: nfs.yml
+  when: nfsmounts is defined and nfsmounts | length > 0
 
 - include_tasks: deploy.yml
   loop: "{{ tuxedo_service_users }}"
