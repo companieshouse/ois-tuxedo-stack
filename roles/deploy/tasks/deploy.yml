@@ -75,18 +75,6 @@
     - "{{ application_configs_path }}/{{ tuxedo_user }}/*.j2"
   no_log: True
 
-- name: Install SSH key for remote stats host
-  include_role:
-    name: ssh-key
-  vars:
-    ssh_key_owner: "{{ tuxedo_user }}"
-    ssh_key_group: "{{ tuxedo_user }}"
-    ssh_dir_group: "{{ tuxedo_user }}"
-    ssh_dir_owner: "{{ tuxedo_user }}"
-    ssh_key_name: "function-stats-remote"
-    hashicorp_vault_private_key_path: "/applications/heritage-{{ environment_name }}-eu-west-2/ois-tuxedo/stats"
-  when: stats.enabled
-
 - name: Add host keys for remote stats host
   become_user: "{{ tuxedo_user }}"
   known_hosts:
