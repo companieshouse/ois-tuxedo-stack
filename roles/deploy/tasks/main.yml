@@ -92,6 +92,14 @@
     mode: 0755
     state: directory
 
+- name: Create OIS stats directory on shared NFS mount
+  file:
+    path: /scanning/ois-stats
+    owner: root
+    group: root
+    mode: 0777
+    state: directory
+
 - name: Create shared log rotation configuration for Tuxedo services
   template:
     src: templates/logrotate.tuxedo.conf.j2
