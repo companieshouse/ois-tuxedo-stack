@@ -75,14 +75,6 @@
     - "{{ application_configs_path }}/{{ tuxedo_user }}/*.j2"
   no_log: True
 
-- name: Add host keys for remote stats host
-  become_user: "{{ tuxedo_user }}"
-  known_hosts:
-    key: "{{ stats_config.ssh_remote_host_key }}"
-    name: "{{ stats_config.ssh_remote_host }}"
-    state: present
-  when: stats.enabled
-
 - name: "{{ tuxedo_user }} : Create scripts directory"
   file:
     path: "{{ new_deployment_files.path }}/scripts"
