@@ -139,7 +139,3 @@ A JSON document should be added to Hashicorp Vault at the path specified by `vau
 | Name                 | Default | Description                                                          |
 |----------------------|---------|----------------------------------------------------------------------|
 | `recipients`         |         | A list of email addresses for recipients of statistical data.        |
-| `ssh_local_key_path` |         | The local path to the private key used to securely copy statistical data to the `ssh_remote_host` host. |
-| `ssh_remote_dir`     |         | The remote directory to which statistical data will be copied.       |
-| `ssh_remote_host`    |         | The hostname of the remote system to which statistical data will be copied. |
-| `ssh_remote_user`    |         | The username for the remote system to which statistical data will be copied. |
