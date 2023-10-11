@@ -115,6 +115,15 @@
     job: "logrotate {{ tuxedo_log_rotation_config_path }}"
     cron_file: /etc/crontab
 
+- name: Disable cron job output emails
+  cronvar:
+    name: MAILTO
+    value: ""
+    cron_file: "{{ item }}"
+  loop:
+    - /etc/crontab
+    - /etc/cron.d/clamav-update
+
 - name: Allow logrotate to modify CloudWatch log
   community.general.sefcontext:
     target: "{{ item }}"
