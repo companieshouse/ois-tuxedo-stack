@@ -14,7 +14,7 @@ resource "aws_lambda_function" "qsp_transfer" {
 
   vpc_config {
     security_group_ids = [aws_security_group.qsp_transfer[0].id]
-    subnet_ids         = data.aws_subnet.application.*.id
+    subnet_ids         = data.aws_subnet.application[*].id
   }
 
   environment {
@@ -97,7 +97,7 @@ resource "aws_iam_policy" "qsp_transfer_execution" {
 
   name        = local.qsp_transfer_common_name
   description = "QSP transfer Lambda Function policy"
-  policy      = data.aws_iam_policy_document.qsp_transfer_execution.json
+  policy      = data.aws_iam_policy_document.qsp_transfer_execution[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "qsp_transfer_execution" {

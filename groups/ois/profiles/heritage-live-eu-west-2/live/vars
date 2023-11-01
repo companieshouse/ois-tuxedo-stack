@@ -8,54 +8,42 @@ instance_type = "m5.large"
 
 root_volume_size = 100
 
-tuxedo_service_logs = {
+tuxedo_log_groups = {
   ceu = [
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
-    { name: "orders" }
+    { name: "orders" },
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
   ]
   publ = [
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
-    { name: "sqsp" }
+    { name: "sqsp" },
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
   ]
   xml = [
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
-    { name: "sqsp" }
+    { name: "sqsp" },
+    { name: "trlog"},
+    { name: "txlog"},
+    { name: "ULOG" }
   ]
   wck = [
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
-    { name: "qspbatch" }
-  ]
-}
-
-
-tuxedo_user_logs = {
-  ceu = [
-    { name: "trlog"},
-    { name: "txlog"},
-    { name: "ULOG" }
-  ]
-  publ = [
-    { name: "trlog"},
-    { name: "txlog"},
-    { name: "ULOG" }
-  ]
-  xml = [
-    { name: "trlog"},
-    { name: "txlog"},
-    { name: "ULOG" }
-  ]
-  wck = [
+    { name: "qspbatch" },
     { name: "trlog"},
     { name: "txlog"},
     { name: "ULOG" }
