@@ -1,5 +1,5 @@
 locals {
-  application_subnet_ids_by_az = values(zipmap(data.aws_subnet.application.*.availability_zone, data.aws_subnet.application.*.id))
+  application_subnet_ids_by_az = values(zipmap(data.aws_subnet.application[*].availability_zone, data.aws_subnet.application[*].id))
 
   common_tags = {
     Environment    = var.environment
@@ -17,41 +17,25 @@ locals {
   security_kms_keys_data      = data.vault_generic_secret.security_kms_keys.data
   ssm_kms_key_id              = local.security_kms_keys_data.session-manager-kms-key-arn
 
-  tuxedo_services = flatten([
-    for tuxedo_server_type_key, tuxedo_service_port in var.tuxedo_services : {
-      tuxedo_server_type_key = tuxedo_server_type_key
-      tuxedo_service_port    = tuxedo_service_port
-    }
-  ])
-
-  tuxedo_service_log_groups = merge([
-    for tuxedo_service_key, tuxedo_logs_list in var.tuxedo_service_logs : {
-      for tuxedo_log in tuxedo_logs_list[*].name : "${var.service_subtype}-${var.service}-${tuxedo_service_key}-${lower(tuxedo_log)}" => {
-        log_retention_in_days = lookup(tuxedo_logs_list[index(tuxedo_logs_list.*.name, tuxedo_log)], "log_retention_in_days", var.default_log_retention_in_days)
-        kms_key_id = lookup(tuxedo_logs_list[index(tuxedo_logs_list.*.name, tuxedo_log)], "kms_key_id", local.logs_kms_key_id)
-        tuxedo_service = tuxedo_service_key
-        log_name = tuxedo_log
-        log_type = "individual"
+  tuxedo_log_groups = merge([
+    for tuxedo_service_group, log_groups in var.tuxedo_log_groups : {
+      for log_group in log_groups : "${var.service_subtype}-${var.service}-${tuxedo_service_group}-${lower(log_group.name)}" => {
+        log_retention_in_days = log_group.log_retention_in_days != null ? log_group.log_retention_in_days : var.default_log_retention_in_days
+        kms_key_id            = log_group.kms_key_id != null ? log_group.kms_key_id : local.logs_kms_key_id
+        tuxedo_service        = tuxedo_service_group
+        log_name              = log_group.name
+        log_type              = "individual"
       }
     }
   ]...)
 
-  tuxedo_user_log_groups = merge([
-    for tuxedo_service_key, tuxedo_logs_list in var.tuxedo_user_logs : {
-      for tuxedo_log in tuxedo_logs_list[*].name : "${var.service_subtype}-${var.service}-${tuxedo_service_key}-${lower(tuxedo_log)}" => {
-        log_retention_in_days = lookup(tuxedo_logs_list[index(tuxedo_logs_list.*.name, tuxedo_log)], "log_retention_in_days", var.default_log_retention_in_days)
-        kms_key_id = lookup(tuxedo_logs_list[index(tuxedo_logs_list.*.name, tuxedo_log)], "kms_key_id", local.logs_kms_key_id)
-        tuxedo_service = tuxedo_service_key
-        log_name = tuxedo_log
-        log_type = "individual"
-      }
-    }
-  ]...)
-
-  tuxedo_log_groups = merge(
-    local.tuxedo_service_log_groups,
-    local.tuxedo_user_log_groups
-  )
+  tuxedo_log_group_arns = [
+    for log_group in merge(
+      aws_cloudwatch_log_group.tuxedo,
+      { "cloudwatch" = aws_cloudwatch_log_group.cloudwatch }
+    )
+    : log_group.arn
+  ]
 
   kms_key_administrator_arns = concat(tolist(data.aws_iam_roles.sso_administrator.arns), [data.aws_iam_user.concourse.arn])
 

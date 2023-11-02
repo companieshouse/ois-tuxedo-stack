@@ -8,19 +8,14 @@ instance_type = "m5.large"
 
 root_volume_size = 100
 
-tuxedo_service_logs = {
+tuxedo_log_groups = {
   ois = [
     { name: "aisord" },
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
     { name: "qspbatch" },
-    { name: "sqsp" }
-  ]
-}
-
-tuxedo_user_logs = {
-  ois = [
+    { name: "sqsp" },
     { name: "trlog"},
     { name: "txlog"},
     { name: "ULOG" }

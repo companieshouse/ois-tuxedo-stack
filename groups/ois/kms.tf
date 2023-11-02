@@ -3,7 +3,7 @@ resource "aws_kms_key" "ois" {
 
   description         = "KMS key for OIS Tuxedo services"
   enable_key_rotation = true
-  policy              = data.aws_iam_policy_document.ois.json
+  policy              = data.aws_iam_policy_document.ois[0].json
 
   tags = merge(local.common_tags, {
     Name = local.common_resource_name
