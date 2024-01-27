@@ -38,19 +38,7 @@ tuxedo_log_groups = {
     { name: "txlog"},
     { name: "ULOG" }
   ]
-  wck = [
-    { name: "aisord" },
-    { name: "domain" },
-    { name: "domaudit" },
-    { name: "orders" },
-    { name: "qspbatch" },
-    { name: "trlog"},
-    { name: "txlog"},
-    { name: "ULOG" }
-  ]
 }
 
 default_log_retention_in_days = 30
 
-qsp_transfer_enabled = true
-qsp_transfer_log_group_name = "ois-tuxedo-wck-qspbatch"

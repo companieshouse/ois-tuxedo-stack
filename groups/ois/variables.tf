@@ -76,78 +76,6 @@ variable "lb_deletion_protection" {
   default     = false
 }
 
-variable "qsp_transfer_artifact_key" {
-  type        = string
-  description = "The release artifact key for the QSP transfer Lambda Function."
-  default     = ""
-}
-
-variable "qsp_transfer_bucket_name" {
-  type        = string
-  description = "The name of the S3 bucket containing the release artifact for the QSP transfer Lambda Function."
-  default     = ""
-}
-
-variable "qsp_transfer_enabled" {
-  type        = bool
-  description = "A boolean value representing whether to enable the QSP transfer Lambda Function or not."
-  default     = false
-}
-
-variable "qsp_transfer_ftp_host" {
-  type        = string
-  description = "The FTP host to be used for QSP data transfers."
-  default     = ""
-}
-
-variable "qsp_transfer_ftp_path" {
-  type        = string
-  description = "The destination path to upload QSP data transfers to over FTP."
-  default     = "upload"
-}
-
-variable "qsp_transfer_handler_name" {
-  type        = string
-  description = "The Lambda Function entry point."
-  default     = "qsp_transfer.lambda_handler"
-}
-
-variable "qsp_transfer_log_group_name" {
-  type        = string
-  description = "The name of the log group containing data to be processed by the QSP transfer Lambda Function."
-  default     = ""
-}
-
-variable "qsp_transfer_log_retention_in_days" {
-  type        = number
-  description = "The default retention period in days for QSP transfer logs."
-  default     = 7
-}
-
-variable "qsp_transfer_memory_size" {
-  type        = string
-  description = "The amount of memory the Lambda Function can use at runtime in megabytes."
-  default     = "512"
-}
-
-variable "qsp_transfer_runtime" {
-  type        = string
-  description = "The runtime version to use for the Lambda Function."
-  default     = "python3.9"
-}
-
-variable "qsp_transfer_schedule" {
-  type        = string
-  description = "A string representing the QSP transfer Lambda Function schedule. For example, cron(0 20 * * ? *) or rate(5 minutes)."
-  default     = "cron(15 0 * * ? *)"
-}
-
-variable "qsp_transfer_timeout" {
-  type        = string
-  description = "The amount of time the Lambda Function is allowed to run before being stopped."
-  default     = 60
-}
-
 variable "region" {
   type        = string
   description = "The AWS region in which resources will be created."
@@ -195,7 +123,6 @@ variable "tuxedo_services" {
     ois  = 38100
     publ = 38200
     xml  = 38300
-    wck  = 38400
   }
 }
 
