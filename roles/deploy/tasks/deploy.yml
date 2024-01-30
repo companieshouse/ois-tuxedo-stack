@@ -111,7 +111,7 @@
   args:
     executable: /bin/bash
   ignore_errors: yes
-  when: tuxedo_user != "ceu" and tuxedo_user != "wck"
+  when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Stop packq daemon processes"
   become_user: "{{ tuxedo_user }}"
@@ -254,7 +254,7 @@
   args:
     executable: /bin/bash
   ignore_errors: yes
-  when: tuxedo_user != "ceu" and tuxedo_user != "wck"
+  when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Start packq daemon processes"
   become_user: "{{ tuxedo_user }}"
