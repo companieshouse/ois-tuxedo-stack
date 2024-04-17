@@ -14,7 +14,6 @@ tuxedo_log_groups = {
     { name: "domain" },
     { name: "domaudit" },
     { name: "orders" },
-    { name: "qspbatch" },
     { name: "sqsp" },
     { name: "trlog"},
     { name: "txlog"},
