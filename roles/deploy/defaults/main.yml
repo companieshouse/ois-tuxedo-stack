@@ -54,8 +54,6 @@ tuxedo_log_files:
       cloudwatch_log_group_name: ois-tuxedo-ois-domaudit
     - file_pattern: orders.log
       cloudwatch_log_group_name: ois-tuxedo-ois-orders
-    - file_pattern: qspbatch.log
-      cloudwatch_log_group_name: ois-tuxedo-ois-qspbatch
     - file_pattern: sqsp.log
       cloudwatch_log_group_name: ois-tuxedo-ois-sqsp
     - file_pattern: trlog*
