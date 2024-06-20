@@ -32,12 +32,13 @@
     msg: Cannot deploy 'ois' services to live; this is intended for development or staging only
   when:  environment_name == "live" and "ois" in tuxedo_service_users
 
-# The hostname is assumed to be in the format: ois-tuxedo-<environment>-<instance-index>
+# The hostname is assumed to be in the format: ois-tuxedo-<environment>-<instance-index>; the environment
+# name 'development' is abbreviated to 'dev' to avoid exceeding the domain character limit
 - name: Set Tuxedo facts for config population
   set_fact:
-     tuxedo_domain_id_suffix: "{{ ansible_facts.hostname | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_DOM') | upper }}"
-     tuxedo_logical_machine_id_suffix: "{{ ansible_facts.hostname | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_SRV') | upper }}"
-     tuxedo_local_domain_suffix: "{{ ansible_facts.hostname | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_LOD') | upper }}"
+     tuxedo_domain_id_suffix: "{{ ansible_facts.hostname | regex_replace('development', 'dev') | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_DOM') | upper }}"
+     tuxedo_logical_machine_id_suffix: "{{ ansible_facts.hostname | regex_replace('development', 'dev') | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_SRV') | upper }}"
+     tuxedo_local_domain_suffix: "{{ ansible_facts.hostname | regex_replace('development', 'dev') | regex_replace('^ois-tuxedo-([A-Za-z].*)-(\\d+)$', 'INSTANCE_\\2_\\1_LOD') | upper }}"
 
 - name: Set CloudWatch agent facts for config population
   set_fact:
