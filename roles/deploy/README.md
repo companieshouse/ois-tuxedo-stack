@@ -93,16 +93,16 @@ During execution of this role, cron jobs are temporarily disabled to avoid gener
 
 Several of the scripts that are executed as [maintenance jobs][5] will generate email alerts dependent upon certain conditions. Alerts are _disabled_ by default and generally enabled only for the production environment. To enable alerts, define an `alerts` group variable as a dictionary with the following parameters:
 
-| Name                 | Default | Description                                                      |
-|----------------------|---------|------------------------------------------------------------------|
-| `enabled`            | `no`    | The boolean value `yes` (to override the default value of `no`). |
-| `vault_path`         |         | The path to the alerting configuration in Hashicorp Vault.       |
+| Name                 | Default   | Description                                                |
+|----------------------|-----------|------------------------------------------------------------|
+| `enabled`            | `false`   | A boolean value indicating whether to enable alerts.       |
+| `vault_path`         |           | The path to the alerting configuration in Hashicorp Vault. |
 
 For example, to enable email alerts for the production environment add the following group variable:
 
 ```yaml
 alerts:
-  enabled: yes
+  enabled: true
   vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/alerts"
 ```
 
@@ -121,16 +121,16 @@ A JSON document should be added to Hashicorp Vault at the path specified by `vau
 
 Scripts that are executed as [maintenance jobs][5] may generate statistics that require transfer to remote hosts for further processing. This is _disabled_ by default and generally enabled only for the production environment. To enable this, define a `stats` group variable as a dictionary with the following parameters:
 
-| Name                 | Default | Description                                                      |
-|----------------------|---------|------------------------------------------------------------------|
-| `enabled`            | `no`    | The boolean value `yes` (to override the default value of `no`). |
-| `vault_path`         |         | The path to the alerting configuration in Hashicorp Vault.       |
+| Name                 | Default | Description                                                         |
+|----------------------|---------|---------------------------------------------------------------------|
+| `enabled`            | `false` | A boolean value indicating whether to enable statistics generation. |
+| `vault_path`         |         | The path to the alerting configuration in Hashicorp Vault.          |
 
 For example, to enable statistics for the production environment add the following group variable:
 
 ```yaml
 alerts:
-  enabled: yes
+  enabled: true
   vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/stats"
 ```
 
