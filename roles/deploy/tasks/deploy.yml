@@ -19,7 +19,7 @@
     tuxedo_user_id: "{{ getent_passwd[tuxedo_user][getent_uid_index] }}"
     tuxedo_queue_path: "/home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }}"
     tuxedo_log_size: "{{ tuxedo_service_config[tuxedo_user].tuxedo_log_size }}"
-  no_log: True
+  no_log: true
 
 - name: Retrieve alerts config from Hashicorp Vault
   set_fact:
@@ -73,7 +73,7 @@
     mode: 0644
   with_fileglob:
     - "{{ application_configs_path }}/{{ tuxedo_user }}/*.j2"
-  no_log: True
+  no_log: true
 
 - name: "{{ tuxedo_user }} : Create scripts directory"
   file:
@@ -98,7 +98,7 @@
     path: "{{ new_deployment_files.path }}"
     owner: "{{ tuxedo_user }}"
     group: "{{ tuxedo_user }}"
-    recurse: yes
+    recurse: true
 
 - name: "{{ tuxedo_user }} : Check state of {{ tuxedo_user }} current deployment directory"
   stat:
@@ -110,7 +110,7 @@
   shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_stop"
   args:
     executable: /bin/bash
-  ignore_errors: yes
+  ignore_errors: true
   when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Stop packq daemon processes"
@@ -118,7 +118,7 @@
   shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_stop"
   args:
     executable: /bin/bash
-  ignore_errors: yes
+  ignore_errors: true
   when: tuxedo_user != "ceu" and tuxedo_user != "xml"
 
 - name: "{{ tuxedo_user }} : Stop Tuxedo services"
@@ -126,7 +126,7 @@
   shell: "source {{ tuxedo_env_file_path }} && timeout -s 9 20 tmshutdown -y"
   args:
     executable: /bin/bash
-  ignore_errors: yes
+  ignore_errors: true
   when: current_deployment_files.stat.exists
 
 - name: "{{ tuxedo_user }} : Clear IPC facilities"
@@ -204,7 +204,7 @@
   template:
     src: templates/cloudwatch-config-service.json.j2
     dest: "{{ cloudwatch_agent.config_dir }}/cloudwatch-config-{{ tuxedo_user }}.json"
-    trim_blocks: False
+    trim_blocks: false
 
 - name: "{{ tuxedo_user }} : Check state of {{ tuxedo_user }} queue"
   stat:
@@ -253,7 +253,7 @@
   shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/mncq_start"
   args:
     executable: /bin/bash
-  ignore_errors: yes
+  ignore_errors: true
   when: tuxedo_user != "ceu"
 
 - name: "{{ tuxedo_user }} : Start packq daemon processes"
@@ -261,7 +261,7 @@
   shell: "source {{ tuxedo_env_file_path }} && /home/{{ tuxedo_user }}/{{ deployment_dir }}/scripts/packq_start"
   args:
     executable: /bin/bash
-  ignore_errors: yes
+  ignore_errors: true
   when: tuxedo_user != "ceu" and tuxedo_user != "xml"
 
 - name: "{{ tuxedo_user }} : Create maintenance jobs"

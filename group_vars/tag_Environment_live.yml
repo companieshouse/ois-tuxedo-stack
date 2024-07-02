@@ -1,11 +1,11 @@
 ---
 
 alerts:
-  enabled: yes
+  enabled: true
   vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/alerts"
 
 stats:
-  enabled: yes
+  enabled: true
   vault_path: "/applications/heritage-live-eu-west-2/ois-tuxedo/stats"
 
 cloudwatch_agent_overrides:
