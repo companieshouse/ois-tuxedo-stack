@@ -17,7 +17,7 @@ cloudwatch_agent_overrides:
 # and processes those files
 nfs_mounts_config:
   - path: "/data1/apps/scud"
-    src: "192.168.255.35:/scanning"
+    src: "192.168.255.40:/scanning"
     symlink: "/scanning"
 
 maintenance_jobs:
