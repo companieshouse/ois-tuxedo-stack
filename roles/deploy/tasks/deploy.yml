@@ -1,6 +1,6 @@
 ---
 
-- name: Set additional variables for template population
+- name: "{{ tuxedo_user }} : Set additional variables for template population"
   set_fact:
     orders_min_boot_count: "{{ tuxedo_service_config[tuxedo_user].orders_min_boot_count | default(8) }}"
     private_host_address: "{{ inventory_hostname }}"
@@ -21,12 +21,12 @@
     tuxedo_log_size: "{{ tuxedo_service_config[tuxedo_user].tuxedo_log_size }}"
   no_log: true
 
-- name: Retrieve alerts config from Hashicorp Vault
+- name: "{{ tuxedo_user }} : Retrieve alerts config from Hashicorp Vault"
   set_fact:
     alerts_config: "{{ lookup('community.hashi_vault.hashi_vault', alerts.vault_path) }}"
   when: alerts.enabled
 
-- name: Retrieve stats config from Hashicorp Vault
+- name: "{{ tuxedo_user }} : Retrieve stats config from Hashicorp Vault"
   set_fact:
     stats_config: "{{ lookup('community.hashi_vault.hashi_vault', stats.vault_path) }}"
   when: stats.enabled
