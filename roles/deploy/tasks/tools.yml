@@ -1,26 +1,25 @@
-
 ---
 
-- name: Install mailx mail processing system
-  yum:
+- name: Install mailx mail processing system # noqa fqcn[action-core]
+  ansible.builtin.yum:
     name: mailx
     state: present
 
 - name: Disable mailx inbuilt SMTP relay
-  replace:
+  ansible.builtin.replace:
     path: /etc/mail.rc
     regexp: '^(set smtp=.*)'
     replace: '#\1'
 
 - name: Configure Postfix mail transfer agent
-  template:
+  ansible.builtin.template:
     src: main.cf.j2
     dest: "{{ postfix_config_path }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   notify:
     - Restart Postfix service
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
