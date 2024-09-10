@@ -14,4 +14,4 @@
   remote_user: centos
   become: true
   roles:
-    - role: nfs-mounts
+    - role: companieshouse.general.nfs_mounts
