@@ -5,10 +5,10 @@ crdl -b 550000 -z {{ tuxedo_queue_path }}
 crlog -m {{ tuxedo_logical_machine_id }}
 EOF
 
-qmadmin /home/{{ tuxedo_user }}/queues/{{ tuxedo_queue_space_device }} <<EOF
+qmadmin /home/{{ tuxedo_service }}/queues/{{ tuxedo_queue_space_device }} <<EOF
 qspacecreate
 QSPACE
-{{ tuxedo_service_config[tuxedo_user].queue_space_ipc_key }}
+{{ tuxedo_service_config[tuxedo_service].queue_space_ipc_key }}
 450000
 10
 20
@@ -26,7 +26,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/qspord_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/qspord_capacity
 qcreate
 LCQ0110
 fifo
@@ -35,7 +35,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/lcq0110_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/lcq0110_capacity
 qcreate
 LCQ0111
 fifo
@@ -44,7 +44,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/lcq0111_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/lcq0111_capacity
 qcreate
 QSP_Can
 fifo
@@ -53,7 +53,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/qspcan_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/qspcan_capacity
 qcreate
 SMS_Ord
 fifo
@@ -62,7 +62,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/smsord_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/smsord_capacity
 qcreate
 ERRORQ
 fifo
@@ -71,11 +71,11 @@ none
 30
 90%
 10%
-/bin/touch /var/log/{{ tuxedo_user }}/errorq_capacity
+/bin/touch /var/log/{{ tuxedo_service }}/errorq_capacity
 qclose
 qspacecreate
 QSPACE2
-{{ tuxedo_service_config[tuxedo_user].queue_space_2_ipc_key }}
+{{ tuxedo_service_config[tuxedo_service].queue_space_2_ipc_key }}
 75000
 10
 20
@@ -93,7 +93,7 @@ none
 30
 90%
 10%
-/bin/touch /var/log/tuxedo/{{ tuxedo_user }}/packq_capacity
+/bin/touch /var/log/tuxedo/{{ tuxedo_service }}/packq_capacity
 qcreate
 ERRORQ2
 fifo
@@ -102,6 +102,6 @@ none
 30
 90%
 10%
-/bin/touch /var/log/tuxedo/{{ tuxedo_user }}/errorq2_capacity
+/bin/touch /var/log/tuxedo/{{ tuxedo_service }}/errorq2_capacity
 qclose
 EOF
