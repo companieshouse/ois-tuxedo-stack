@@ -17,20 +17,15 @@
       - scripts_artifact_path is defined and scripts_artifact_path | trim | length > 0
     msg: "Required variable(s) empty or undefined"
 
-- name: Check valid combination of services for deployment
-  ansible.builtin.fail:
-    msg: Deploy 'ois' services exclusively, or any combination of 'ceu', 'xml' or 'publ', not both
-  when: tuxedo_service | length > 1 and 'ois' in tuxedo_service
-
 - name: Check valid combination of services for development or staging environment
   ansible.builtin.fail:
     msg: Cannot deploy services other than 'ois' to this environment
-  when: environment_name != "live" and "ois" not in tuxedo_service
+  when: environment_name != "live" and tuxedo_service != "ois"
 
 - name: Check valid combination of services for live
   ansible.builtin.fail:
     msg: Cannot deploy 'ois' services to live; this is intended for development or staging only
-  when: environment_name == "live" and "ois" in tuxedo_service
+  when: environment_name == "live" and tuxedo_service == "ois"
 
 - name: Set common Tuxedo fact for domain suffix
   ansible.builtin.set_fact:
